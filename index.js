@@ -6,7 +6,7 @@ canHandle(handlerInput) {
 return handlerInput.requestEnvelope.request.type === 'LaunchRequest';
     },
 handle(handlerInput) {
-const speechText = 'Welcome to the Alexa Skills Kit, you can say hello?';
+const speechText = 'Hallo, das ist baer data am Apparat!';
 return handlerInput.responseBuilder
 .speak(speechText)
 .reprompt(speechText)

@@ -1,0 +1,11 @@
+service: HelloWorld
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  region: eu-central-1
+functions:
+  alexa:
+    handler: index.handler
+    events:
+      - alexaSkill: amzn1.ask.skill.aae107cf-3355-481b-9233-c42cdf7ac9df
