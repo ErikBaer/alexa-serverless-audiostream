@@ -10,7 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "ask-sdk": "^2.10.2",
-    "dotenv": "^8.2.0",
+    "ask-sdk-dynamodb-persistence-adapter": "^2.10.2",
     "serverless-plugin-typescript": "^1.1.9"
   },
   "devDependencies": {

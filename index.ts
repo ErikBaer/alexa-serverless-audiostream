@@ -2,7 +2,8 @@
 // Please visit https://alexa.design/cookbook for additional examples on implementing slots, dialog management,
 // session persistence, api calls, and more.
 import * as Alexa from 'ask-sdk';
-import { RequestHandler, HandlerInput, ErrorHandler } from 'ask-sdk-core';
+import { RequestHandler, HandlerInput, ErrorHandler, PersistenceAdapter } from 'ask-sdk-core';
+import { DynamoDbPersistenceAdapter } from 'ask-sdk-dynamodb-persistence-adapter'
 
 const LaunchRequestHandler: RequestHandler = {
     canHandle(handlerInput: HandlerInput) {
@@ -118,4 +119,10 @@ exports.handler = Alexa.SkillBuilders.custom()
     .addErrorHandlers(
         ErrorHandler,
     )
+    .withPersistenceAdapter(
+             new DynamoDbPersistenceAdapter({
+                 tableName: 'user_sessions',
+                 createTable: true
+             })
+         )
     .lambda();
