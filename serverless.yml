@@ -4,8 +4,53 @@ provider:
   runtime: nodejs12.x
   stage: dev
   region: eu-central-1
+
 functions:
   alexa:
     handler: index.handler
     events:
-      - alexaSkill: amzn1.ask.skill.aae107cf-3355-481b-9233-c42cdf7ac9df
+      - alexaSkill: amzn1.ask.skill.b7dc0b0a-4e43-42b9-bdf6-70293b3556de
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-alexa-skills
+
+custom:
+  alexa:
+    vendorId: ${file(config_variables.yml):my_alexa_credentials.vendorId}
+    clientId: ${file(config_variables.yml):my_alexa_credentials.clientId}
+    clientSecret: ${file(config_variables.yml):my_alexa_credentials.clientSecret}
+    skills:
+      - id: amzn1.ask.skill.b7dc0b0a-4e43-42b9-bdf6-70293b3556de
+        manifest:
+          apis:
+            custom:
+              endpoint:
+                uri: 'arn:aws:lambda:eu-central-1:749506370837:function:HelloWorld-dev-alexa'
+              interfaces: [ ]
+              regions:
+                EU:
+                  endpoint:
+                    uri: >-
+                      arn:aws:lambda:eu-central-1:749506370837:function:HelloWorld-dev-alexa
+          manifestVersion: '1.0'
+          publishingInformation:
+            category: KNOWLEDGE_AND_TRIVIA
+            distributionCountries: [ ]
+            isAvailableWorldwide: true
+            locales:
+              de-DE:
+                description: Sample Full Description
+                examplePhrases:
+                  - Alexa öffne baer data
+                  - hallo baer data
+                  - öffne baer data
+                  - hilfe
+                keywords: [ ]
+                name: baer-data
+                summary: Sample Short Description
+            testingInstructions: Sample Testing Instructions.
+        models:
+          ${file(model.json):de-model}
+
+
