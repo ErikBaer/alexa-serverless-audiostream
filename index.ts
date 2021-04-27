@@ -1,26 +1,27 @@
 // This sample demonstrates handling intents from an Alexa skill using the Alexa Skills Kit SDK (v2).
 // Please visit https://alexa.design/cookbook for additional examples on implementing slots, dialog management,
 // session persistence, api calls, and more.
-const Alexa = require('ask-sdk-core');
+import * as Alexa from 'ask-sdk';
+import { RequestHandler, HandlerInput, ErrorHandler } from 'ask-sdk-core';
 
-const LaunchRequestHandler = {
-    canHandle(handlerInput) {
+const LaunchRequestHandler: RequestHandler = {
+    canHandle(handlerInput: HandlerInput) {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'LaunchRequest';
     },
-    handle(handlerInput) {
-        const speakOutput = 'Welcome to baer data, you can say Hello or Help. Which would you like to try?';
+    handle(handlerInput: HandlerInput) {
+        const speakOutput: string = 'Herzlich Willkommen bei Baer Data! Wir sind froh sie bei uns begrüßen zu dürfen!';
         return handlerInput.responseBuilder
             .speak(speakOutput)
             .reprompt(speakOutput)
             .getResponse();
     }
 };
-const HelloWorldIntentHandler = {
-    canHandle(handlerInput) {
+const HelloWorldIntentHandler: RequestHandler = {
+    canHandle(handlerInput: HandlerInput) {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
             && Alexa.getIntentName(handlerInput.requestEnvelope) === 'HelloWorldIntent';
     },
-    handle(handlerInput) {
+    handle(handlerInput: HandlerInput) {
         const speakOutput = 'Hello World, this is baer data!';
         return handlerInput.responseBuilder
             .speak(speakOutput)
@@ -29,11 +30,11 @@ const HelloWorldIntentHandler = {
     }
 };
 const HelpIntentHandler = {
-    canHandle(handlerInput) {
+    canHandle(handlerInput: HandlerInput) {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
             && Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.HelpIntent';
     },
-    handle(handlerInput) {
+    handle(handlerInput: HandlerInput) {
         const speakOutput = 'You can say hello to me! How can I help?';
 
         return handlerInput.responseBuilder
@@ -43,12 +44,12 @@ const HelpIntentHandler = {
     }
 };
 const CancelAndStopIntentHandler = {
-    canHandle(handlerInput) {
+    canHandle(handlerInput: HandlerInput) {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
             && (Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.CancelIntent'
                 || Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.StopIntent');
     },
-    handle(handlerInput) {
+    handle(handlerInput: HandlerInput) {
         const speakOutput = 'Goodbye!';
         return handlerInput.responseBuilder
             .speak(speakOutput)
@@ -56,10 +57,10 @@ const CancelAndStopIntentHandler = {
     }
 };
 const SessionEndedRequestHandler = {
-    canHandle(handlerInput) {
+    canHandle(handlerInput: HandlerInput) {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'SessionEndedRequest';
     },
-    handle(handlerInput) {
+    handle(handlerInput: HandlerInput) {
         // Any cleanup logic goes here.
         return handlerInput.responseBuilder.getResponse();
     }
@@ -70,10 +71,10 @@ const SessionEndedRequestHandler = {
 // for your intents by defining them above, then also adding them to the request
 // handler chain below.
 const IntentReflectorHandler = {
-    canHandle(handlerInput) {
+    canHandle(handlerInput: HandlerInput) {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest';
     },
-    handle(handlerInput) {
+    handle(handlerInput: HandlerInput) {
         const intentName = Alexa.getIntentName(handlerInput.requestEnvelope);
         const speakOutput = `You just triggered ${intentName}`;
 
@@ -87,11 +88,11 @@ const IntentReflectorHandler = {
 // Generic error handling to capture any syntax or routing errors. If you receive an error
 // stating the request handler chain is not found, you have not implemented a handler for
 // the intent being invoked or included it in the skill builder below.
-const ErrorHandler = {
+const ErrorHandler: ErrorHandler = {
     canHandle() {
         return true;
     },
-    handle(handlerInput, error) {
+    handle(handlerInput: HandlerInput, error: Error) {
         console.log(`~~~~ Error handled: ${error.stack}`);
         const speakOutput = `Sorry, I had trouble doing what you asked. Please try again.`;
 
