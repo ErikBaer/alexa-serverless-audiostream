@@ -4,13 +4,21 @@
 import * as Alexa from 'ask-sdk';
 import { RequestHandler, HandlerInput, ErrorHandler, PersistenceAdapter } from 'ask-sdk-core';
 import { DynamoDbPersistenceAdapter } from 'ask-sdk-dynamodb-persistence-adapter'
+import {LoggingRequestInterceptor,
+            LoggingResponseInterceptor,
+            LoadAttributesRequestInterceptor,
+            SaveAttributesResponseInterceptor} from './interceptors'
 
 const LaunchRequestHandler: RequestHandler = {
     canHandle(handlerInput: HandlerInput) {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'LaunchRequest';
     },
     handle(handlerInput: HandlerInput) {
-        const speakOutput: string = 'Herzlich Willkommen bei Baer Data! Wir sind froh sie bei uns begrüßen zu dürfen!';
+    const sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
+        const sessionCounter = sessionAttributes['sessionCounter'];
+        const speakOutputFirst: string = 'Herzlich Willkommen bei Baer Data! Wir sind froh sie bei uns begrüßen zu dürfen!';
+        const speakOutputLater: string = 'Willkommen zurück bei baer data. Schön sie erneut begrüssen zu dürfen!'
+        const speakOutput: string = !sessionCounter? speakOutputFirst: speakOutputLater
         return handlerInput.responseBuilder
             .speak(speakOutput)
             .reprompt(speakOutput)
@@ -119,6 +127,12 @@ exports.handler = Alexa.SkillBuilders.custom()
     .addErrorHandlers(
         ErrorHandler,
     )
+    .addRequestInterceptors(
+            LoadAttributesRequestInterceptor,
+            LoggingRequestInterceptor,)
+    .addResponseInterceptors(
+            LoggingResponseInterceptor,
+            SaveAttributesResponseInterceptor)
     .withPersistenceAdapter(
              new DynamoDbPersistenceAdapter({
                  tableName: 'user_sessions',
@@ -126,3 +140,13 @@ exports.handler = Alexa.SkillBuilders.custom()
              })
          )
     .lambda();
+
+
+
+    //TODO: move intents to own file (directories: intents, interceptors, models, (requests:maybe keep in index because of importance here; or put it in extra file because of importance .. reason about it!))
+    //TODO: check if session_counter = 0 (implement it first)
+    //TODO: Add audio logic
+    //TODO: Enter more stuff here
+    //TODO: clean up file, remove comments etc
+    //TODO: make responses german (move to own file ? depends on time/effort)
+    //TODO: add eslint (maybe check udacity proj. for reference, or google reference )
