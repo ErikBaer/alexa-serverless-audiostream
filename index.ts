@@ -16,8 +16,8 @@ const LaunchRequestHandler: RequestHandler = {
     handle(handlerInput: HandlerInput) {
     const sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
         const sessionCounter = sessionAttributes['sessionCounter'];
-        const speakOutputFirst: string = 'Hallo, das ist die Erstbegrüßung';
-        const speakOutputLater: string = 'Hallo das ist die Zweitbegrüßung!'
+        const speakOutputFirst: string = 'Hallo, das ist die Erstbegrüßung <audio src="soundbank://soundlibrary/aircrafts/futuristic/futuristic_04"/>';
+        const speakOutputLater: string = 'Hallo das ist die Zweitbegrüßung! <audio src="soundbank://soundlibrary/aircrafts/futuristic/futuristic_11"/>'
         const speakOutput: string = !sessionCounter? speakOutputFirst: speakOutputLater
         return handlerInput.responseBuilder
             .speak(speakOutput)
@@ -143,7 +143,7 @@ exports.handler = Alexa.SkillBuilders.custom()
     )
     .addRequestInterceptors(
             LoadAttributesRequestInterceptor,
-            LoggingRequestInterceptor,)
+            LoggingRequestInterceptor)
     .addResponseInterceptors(
             LoggingResponseInterceptor,
             SaveAttributesResponseInterceptor)
@@ -157,15 +157,14 @@ exports.handler = Alexa.SkillBuilders.custom()
 
 
 
-
-    //TODO: Add audio logic
-    //TODO: Add pause and resume intent (check how much effort, should not be much)
-    //TODO: Enter more stuff here
     //TODO: clean up file, remove comments etc
     //TODO: make responses german (move to own file ? depends on time/effort)
+    //TODO: move intents to own file (directories: handlers, interceptors, models, adapter))
     //TODO: add eslint (maybe check udacity proj. for reference, or google reference )
 
     //TODO: Check with Sebastian about desired requirements
     //TODO: move intents to own file (directories: handlers, interceptors, models, adapter))
+    //TODO: Revise audio files (find nice jingles??)
     // QUESTION: Should i publish and he consumes; Or does he want to be able to release himself?
-    // Question: Should the stream stop when the app is closed ? Or maybe play on
+    // QUESTION: Soll der SKill bloss auf deutsch sein, oder möchte er ihn gerne internationalisiert sehen ?
+
