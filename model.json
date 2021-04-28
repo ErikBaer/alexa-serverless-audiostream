@@ -7,7 +7,13 @@
           "intents": [
             {
               "name": "AMAZON.CancelIntent",
-              "samples": []
+              "samples": [
+                "ende",
+                "verlassen",
+                "beenden",
+                "stop",
+                "schliessen"
+              ]
             },
             {
               "name": "AMAZON.HelpIntent",
@@ -15,7 +21,13 @@
             },
             {
               "name": "AMAZON.StopIntent",
-              "samples": []
+              "samples": [
+                "ende",
+                "verlassen",
+                "beenden",
+                "stop",
+                "schliessen"
+              ]
             },
             {
               "name": "HelloWorldIntent",
@@ -32,6 +44,14 @@
             },
             {
               "name": "AMAZON.NavigateHomeIntent",
+              "samples": []
+            },
+            {
+              "name": "AMAZON.PauseIntent",
+              "samples": []
+            },
+            {
+              "name": "AMAZON.ResumeIntent",
               "samples": []
             }
           ],

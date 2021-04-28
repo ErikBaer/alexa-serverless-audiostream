@@ -16,12 +16,19 @@ const LaunchRequestHandler: RequestHandler = {
     handle(handlerInput: HandlerInput) {
     const sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
         const sessionCounter = sessionAttributes['sessionCounter'];
-        const speakOutputFirst: string = 'Herzlich Willkommen bei Baer Data! Wir sind froh sie bei uns begrüßen zu dürfen!';
-        const speakOutputLater: string = 'Willkommen zurück bei baer data. Schön sie erneut begrüssen zu dürfen!'
+        const speakOutputFirst: string = 'Hallo, das ist die Erstbegrüßung';
+        const speakOutputLater: string = 'Hallo das ist die Zweitbegrüßung!'
         const speakOutput: string = !sessionCounter? speakOutputFirst: speakOutputLater
         return handlerInput.responseBuilder
             .speak(speakOutput)
-            .reprompt(speakOutput)
+            .addAudioPlayerPlayDirective(
+            'REPLACE_ALL',
+            'https://wdr-wdr2-rheinland.icecastssl.wdr.de/wdr/wdr2/rheinland/mp3/128/stream.mp3',
+            'stream-1',
+             0,
+             null)
+            // .reprompt(speakOutput)
+             .withShouldEndSession(true)
             .getResponse();
     }
 };
@@ -34,7 +41,7 @@ const HelloWorldIntentHandler: RequestHandler = {
         const speakOutput = 'Hello World, this is baer data!';
         return handlerInput.responseBuilder
             .speak(speakOutput)
-            //.reprompt('add a reprompt if you want to keep the session open for the user to respond')
+            .reprompt('add a reprompt if you want to keep the session open for the user to respond')
             .getResponse();
     }
 };
@@ -55,16 +62,23 @@ const HelpIntentHandler = {
 const CancelAndStopIntentHandler = {
     canHandle(handlerInput: HandlerInput) {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
-            && (Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.CancelIntent'
-                || Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.StopIntent');
+            && (Alexa.getIntentName(handlerInput.requestEnvelope) === "AMAZON.PauseIntent" ||
+            Alexa.getIntentName(handlerInput.requestEnvelope) ===
+                    "AMAZON.CancelIntent" ||
+                    Alexa.getIntentName(handlerInput.requestEnvelope) ===
+                      "AMAZON.StopIntent")
+
     },
     handle(handlerInput: HandlerInput) {
-        const speakOutput = 'Goodbye!';
+        const speakOutput = 'Tschüss und bis zum nächsten mal';
         return handlerInput.responseBuilder
             .speak(speakOutput)
+            .addAudioPlayerStopDirective()
+            //.withShouldEndSession(true)
             .getResponse();
     }
 };
+
 const SessionEndedRequestHandler = {
     canHandle(handlerInput: HandlerInput) {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'SessionEndedRequest';
@@ -145,6 +159,7 @@ exports.handler = Alexa.SkillBuilders.custom()
 
 
     //TODO: Add audio logic
+    //TODO: Add pause and resume intent (check how much effort, should not be much)
     //TODO: Enter more stuff here
     //TODO: clean up file, remove comments etc
     //TODO: make responses german (move to own file ? depends on time/effort)
