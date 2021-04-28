@@ -143,10 +143,14 @@ exports.handler = Alexa.SkillBuilders.custom()
 
 
 
-    //TODO: move intents to own file (directories: intents, interceptors, models, (requests:maybe keep in index because of importance here; or put it in extra file because of importance .. reason about it!))
-    //TODO: check if session_counter = 0 (implement it first)
+
     //TODO: Add audio logic
     //TODO: Enter more stuff here
     //TODO: clean up file, remove comments etc
     //TODO: make responses german (move to own file ? depends on time/effort)
     //TODO: add eslint (maybe check udacity proj. for reference, or google reference )
+
+    //TODO: Check with Sebastian about desired requirements
+    //TODO: move intents to own file (directories: handlers, interceptors, models, adapter))
+    // QUESTION: Should i publish and he consumes; Or does he want to be able to release himself?
+    // Question: Should the stream stop when the app is closed ? Or maybe play on
