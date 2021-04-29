@@ -1,3 +1,6 @@
 /node_modules/
 /.serverless/
 /config_variables.yml
+/shelf/
+/workspace.xml
+/.idea/

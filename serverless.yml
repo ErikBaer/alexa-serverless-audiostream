@@ -45,16 +45,16 @@ custom:
             isAvailableWorldwide: true
             locales:
               de-DE:
-                description: Sample Full Description
+                description: Streame deine liebste Radiostation - WRD2
                 examplePhrases:
                   - Alexa öffne baer data
                   - öffne baer data
-                  - hilfe
+                  - starte baer data
                 keywords: [ ]
                 name: baer-data
-                summary: Sample Short Description
+                summary: Radio-stream
             testingInstructions: Sample Testing Instructions.
         models:
-          ${file(model.json):de-model}
+          ${file(models/model.json):de-model}
 
 
