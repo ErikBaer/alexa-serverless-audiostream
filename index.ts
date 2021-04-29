@@ -1,5 +1,7 @@
 import * as Alexa from 'ask-sdk';
 import { DynamoDbPersistenceAdapter } from 'ask-sdk-dynamodb-persistence-adapter'
+import { PersistenceAdapter} from 'ask-sdk-core';
+
 import {LoggingRequestInterceptor,
             LoggingResponseInterceptor,
             LoadAttributesRequestInterceptor,
@@ -7,6 +9,7 @@ import {LoggingRequestInterceptor,
 
 import {LaunchRequestHandler, HelloWorldIntentHandler, HelpIntentHandler, CancelAndStopIntentHandler,SessionEndedRequestHandler, RequestErrorHandler} from './lambda/request-handlers'
 
+const dynamoDbPersistenceAdapter : PersistenceAdapter = new DynamoDbPersistenceAdapter({ tableName : 'usersTable' });
 
 exports.handler = Alexa.SkillBuilders.custom()
     .addRequestHandlers(
@@ -26,26 +29,20 @@ exports.handler = Alexa.SkillBuilders.custom()
             LoggingResponseInterceptor,
             SaveAttributesResponseInterceptor)
     .withPersistenceAdapter(
-             new DynamoDbPersistenceAdapter({
-                 tableName: 'usersTable',
-                 createTable: false
-             })
-         )
+             dynamoDbPersistenceAdapter)
     .lambda();
 
 
 
-    //TODO: Check if all is typed up!
-    //TODO: rename vars in LaunchRequestHandler; check naming overall! (also rename model file to make it more descriptive & generic at the same tim
+    //TODO: check naming overall! (also rename model file to make it more descriptive & generic at the same tim
     //TODO: add uris to  publishingInformation.locales.de-DE.largeIconUri etc. in yml
     //TODO: Add image and phrase to skill invocation
+    //TODO: delete obsolet branches (local and remote)
 
-
-    //TODO: Maybe initiate DYNAMODB in sls.yml instead of adapter.*name-routing* Is is reasonable to keep it flexible?
-    //TODO: Link with outputs ?*
     //TODO: Revise audio files (find nice jingles??)
     //TODO: maybe emphasize responses (Maybe even pick other voice?)
     //TODO: Test/adjust model-samples .. gehts auch ohne ? Sonst nimm gute!
+    //TODO: delete obsolet branches (local and remote)
 
     //TODO: Check with Sebastian about desired requirements
     // Question/Consideration: Write Docs / Document process / just howToRun ? Reconsider what you have done, right it down anyway to reproduce quality result!

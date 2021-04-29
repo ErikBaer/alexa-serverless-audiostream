@@ -1,23 +1,26 @@
 const Alexa = require('ask-sdk-core');
+import { HandlerInput} from 'ask-sdk-core';
+import {Response} from 'ask-sdk-model'
+
 
 const PERSISTENT_ATTRIBUTES_NAMES = [ 'sessionCounter'];
 
 // This request interceptor will log all incoming requests to this lambda
 const LoggingRequestInterceptor = {
-    process(handlerInput) {
+    process(handlerInput: HandlerInput): void {
         console.log(`Incoming request: ${JSON.stringify(handlerInput.requestEnvelope)}`);
     }
 };
 
 // This response interceptor will log all outgoing responses of this lambda
 const LoggingResponseInterceptor = {
-    process(handlerInput, response) {
+    process(_: HandlerInput, response: Response): void {
         console.log(`Outgoing response: ${JSON.stringify(response)}`);
     }
 };
 
 const LoadAttributesRequestInterceptor = {
-    async process(handlerInput) {
+    async process(handlerInput: HandlerInput) : Promise<void>{
         const {attributesManager, requestEnvelope} = handlerInput;
         const sessionAttributes = attributesManager.getSessionAttributes();
         // the "loaded" check is because the "new" session flag is lost if there's a one shot utterance that hits an intent with auto-delegate
@@ -32,13 +35,13 @@ const LoadAttributesRequestInterceptor = {
 };
 
 const SaveAttributesResponseInterceptor = {
-    async process(handlerInput, response) {
+    async process(handlerInput: HandlerInput, response: Response): Promise<void> {
         if (!response) return; // avoid intercepting calls that have no outgoing response due to errors
         const {attributesManager, requestEnvelope} = handlerInput;
         const sessionAttributes = attributesManager.getSessionAttributes();
-        const shouldEndSession = (typeof response.shouldEndSession === "undefined" ? true : response.shouldEndSession); //is this a session end?
+        const shouldEndSession: boolean = (typeof response.shouldEndSession === "undefined" ? true : response.shouldEndSession); //is this a session end?
         // the "loaded" check is because the session "new" flag is lost if there's a one shot utterance that hits an intent with auto-delegate
-        const loadedThisSession = sessionAttributes['loaded'];
+        const loadedThisSession: boolean = sessionAttributes['loaded'];
         if ((shouldEndSession || Alexa.getRequestType(requestEnvelope) === 'SessionEndedRequest') && loadedThisSession) { // skill was stopped or timed out
 
             sessionAttributes['sessionCounter'] = sessionAttributes['sessionCounter'] ? sessionAttributes['sessionCounter'] + 1 : 1;
