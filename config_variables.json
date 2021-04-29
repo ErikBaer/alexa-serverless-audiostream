@@ -1,0 +1,13 @@
+{
+  "alexa": {
+    "credentials": {
+      "vendorId": "M2AE3LF0Y91ZRZ",
+      "clientId": "amzn1.application-oa2-client.45b8d0b6c4964e5b8bc0c6026a8c57f0",
+      "clientSecret": "dc95ac95284697a770ba00a3b5997e833f93943950524620b625a29ec083b314"
+    },
+    "apis": {
+      "skillID": "amzn1.ask.skill.b7dc0b0a-4e43-42b9-bdf6-70293b3556de",
+      "lambdaURI": "arn:aws:lambda:eu-central-1:749506370837:function:HelloWorld-dev-alexa"
+    }
+  }
+}
