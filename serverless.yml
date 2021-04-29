@@ -10,7 +10,7 @@ provider:
         - dynamoDB:CreateTable
         - dynamoDB:GetItem
         - dynamoDB:PutItem
-      Resource: "*"
+      Resource: "arn:aws:dynamodb:*:*:table/usersTable"
 
 functions:
   alexa:
@@ -21,6 +21,22 @@ functions:
 plugins:
   - serverless-plugin-typescript
   - serverless-alexa-skills
+
+resources: # CloudFormation template syntax
+  Resources:
+    usersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: usersTable
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
 
 custom:
   alexa:
@@ -54,6 +70,8 @@ custom:
             testingInstructions: Sample Testing Instructions.
         models:
           ${file(models/model.json):de-model}
+
+
 
 
 

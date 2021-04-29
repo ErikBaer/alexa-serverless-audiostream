@@ -27,8 +27,8 @@ exports.handler = Alexa.SkillBuilders.custom()
             SaveAttributesResponseInterceptor)
     .withPersistenceAdapter(
              new DynamoDbPersistenceAdapter({
-                 tableName: 'user_sessions',
-                 createTable: true
+                 tableName: 'usersTable',
+                 createTable: false
              })
          )
     .lambda();
@@ -42,6 +42,7 @@ exports.handler = Alexa.SkillBuilders.custom()
 
 
     //TODO: Maybe initiate DYNAMODB in sls.yml instead of adapter.*name-routing* Is is reasonable to keep it flexible?
+    //TODO: Link with outputs ?*
     //TODO: Revise audio files (find nice jingles??)
     //TODO: maybe emphasize responses (Maybe even pick other voice?)
     //TODO: Test/adjust model-samples .. gehts auch ohne ? Sonst nimm gute!
