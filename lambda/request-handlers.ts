@@ -10,7 +10,7 @@ const LaunchRequestHandler: RequestHandler = {
         const sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
         const sessionCounter: number = sessionAttributes['sessionCounter'];
         const speakOutputFirst: string = 'Hallo, das ist die Erstbegrüßung <audio src="soundbank://soundlibrary/aircrafts/futuristic/futuristic_04"/>';
-        const speakOutputLater: string = 'Hallo das ist die Zweitbegrüßung! <audio src="soundbank://soundlibrary/aircrafts/futuristic/futuristic_11"/>'
+        const speakOutputLater: string = '<amazon:emotion name="excited" intensity="low">Hallo, das ist die Zweitbegrüßung!</amazon:emotion> <audio src="soundbank://soundlibrary/aircrafts/futuristic/futuristic_11"/>'
         const speakOutput: string = !sessionCounter? speakOutputFirst: speakOutputLater
 
         return handlerInput.responseBuilder
@@ -60,7 +60,7 @@ const CancelAndStopIntentHandler: RequestHandler = {
                 Alexa.getIntentName(handlerInput.requestEnvelope) === "AMAZON.StopIntent")
     },
     handle(handlerInput: HandlerInput): Response {
-        const speakOutput: string = 'Tschüss und bis zum nächsten mal';
+        const speakOutput: string = '<amazon:emotion name="excited" intensity="low">Tschüss, und bis zum nächsten mal! </amazon:emotion>';
         return handlerInput.responseBuilder
             .speak(speakOutput)
             .addAudioPlayerStopDirective()

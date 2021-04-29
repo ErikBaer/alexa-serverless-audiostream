@@ -1,19 +1,13 @@
 {
   "de-model": {
-    "de-DE": {
+
       "interactionModel": {
         "languageModel": {
           "invocationName": "baer data",
           "intents": [
             {
               "name": "AMAZON.CancelIntent",
-              "samples": [
-                "ende",
-                "verlassen",
-                "beenden",
-                "stop",
-                "schliessen"
-              ]
+              "samples": []
             },
             {
               "name": "AMAZON.HelpIntent",
@@ -21,25 +15,16 @@
             },
             {
               "name": "AMAZON.StopIntent",
-              "samples": [
-                "ende",
-                "verlassen",
-                "beenden",
-                "stop",
-                "schliessen"
-              ]
+              "samples": []
             },
             {
               "name": "HelloWorldIntent",
               "slots": [],
               "samples": [
-                "hello",
-                "how are you",
-                "say hi world",
-                "say hi",
-                "hi",
-                "say hello world",
-                "say hello"
+                "hallo",
+                "hallo Welt",
+                "hey",
+                "hi"
               ]
             },
             {
@@ -60,4 +45,3 @@
       }
     }
   }
-}

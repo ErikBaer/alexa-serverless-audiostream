@@ -1,9 +1,10 @@
 service: HelloWorld
 provider:
   name: aws
-  runtime: nodejs12.x
-  stage: dev
   region: eu-central-1
+  runtime: nodejs12.x
+  lambdaHashingVersion: 20201221
+  stage: dev
   iamRoleStatements:
     - Effect: "Allow"
       Action:
@@ -22,7 +23,7 @@ plugins:
   - serverless-plugin-typescript
   - serverless-alexa-skills
 
-resources: # CloudFormation template syntax
+resources:
   Resources:
     usersTable:
       Type: AWS::DynamoDB::Table
@@ -59,17 +60,16 @@ custom:
             isAvailableWorldwide: true
             locales:
               de-DE:
-                description: Streame deine liebste Radiostation - WRD2
+                description: Streame deine liebste Radiostation - WRD2 - mit baer data!
                 examplePhrases:
-                  - Alexa öffne baer data
                   - öffne baer data
                   - starte baer data
                 keywords: [ ]
                 name: baer-data
-                summary: Radio-stream
+                summary: Streame deine liebste Radiostation - WRD2 - mit baer data!
             testingInstructions: Sample Testing Instructions.
         models:
-          ${file(models/model.json):de-model}
+          de-DE: ${file(models/model-deDE.json):de-model}
 
 
 
