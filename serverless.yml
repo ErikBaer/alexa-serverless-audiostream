@@ -1,4 +1,4 @@
-service: ${file(config/default.json):general.serviceName}
+service: ${file(config/default.json):aws-profile.serviceName}
 provider:
   name: aws
   region: eu-central-1
@@ -17,13 +17,12 @@ functions:
   alexa:
     handler: index.handler
     events:
-      - alexaSkill: ${file(config/default.json):general.skillID}
+      - alexaSkill: ${file(config/default.json):alexa.skillID}
     name: alexa-streaming-${self:provider.stage}
 
 plugins:
   - serverless-plugin-typescript
   - serverless-alexa-skills
-  - serverless-pseudo-parameters
 
 resources:
   Resources:
@@ -43,16 +42,16 @@ resources:
 
 custom:
   alexa:
-    vendorId: ${file(config/default.json):profile.alexa.vendorId}
-    clientId: ${file(config/default.json):profile.alexa.clientId}
-    clientSecret: ${file(config/default.json):profile.alexa.clientSecret}
+    vendorId: ${file(config/default.json):alexa.vendorId}
+    clientId: ${file(config/default.json):alexa.clientId}
+    clientSecret: ${file(config/default.json):alexa.clientSecret}
     skills:
-      - id: ${file(config/default.json):general.skillID}
+      - id: ${file(config/default.json):alexa.skillID}
         manifest:
           apis:
             custom:
               endpoint:
-                uri: arn:aws:lambda:${self:provider.region}:${file(config/default.json):profile.aws.accountId}:function:alexa-streaming-${self:provider.stage}
+                uri: arn:aws:lambda:${self:provider.region}:${file(config/default.json):aws-profile.accountId}:function:alexa-streaming-${self:provider.stage}
               interfaces:
                 - type: AUDIO_PLAYER
           manifestVersion: '1.0'

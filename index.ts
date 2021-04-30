@@ -32,7 +32,6 @@ exports.handler = Alexa.SkillBuilders.custom()
     //TODO: add uris to  publishingInformation.locales.de-DE.largeIconUri etc. in yml
     //TODO: Add image and phrase to skill invocation
     //TODO: Can I have custom intent / skill without helloWorld? Check example / best practice. What intent could i customize?
-    //TODO: npm config
     //TODO: wright short deploy script which pipes the skill id to env?! maybe; probably yes. npm run etc.
 
     //TODO: Revise audio files (find nice jingles??)
