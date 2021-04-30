@@ -1,6 +1,8 @@
-/node_modules/
-/.serverless/
+node_modules/
+.serverless/
 /config_variables.yml
 /shelf/
 /workspace.xml
-/.idea/
+.idea/
+package-lock.json
+config/default.json

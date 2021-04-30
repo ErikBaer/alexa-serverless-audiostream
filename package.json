@@ -4,7 +4,8 @@
   "description": "",
   "main": "src/index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "node-config-ts"
   },
   "author": "",
   "license": "ISC",
@@ -12,13 +13,15 @@
     "ask-sdk": "^2.10.2",
     "ask-sdk-dynamodb-persistence-adapter": "^2.10.2",
     "ask-sdk-model": "^1.35.1",
-    "serverless-plugin-typescript": "^1.1.9"
+    "node-config-ts": "^3.1.0",
+    "serverless-plugin-typescript": "^1.1.9",
+    "serverless-pseudo-parameters": "^2.5.0"
   },
   "devDependencies": {
-    "serverless-alexa-skills": "^0.1.0",
     "@types/node": "^14.11.2",
+    "serverless-alexa-skills": "^0.1.0",
+    "serverless-plugin-typescript": "1.1.7",
     "ts-node": "^9.0.0",
-    "typescript": "^4.2.4",
-    "serverless-plugin-typescript": "1.1.7"
+    "typescript": "^4.2.4"
   }
 }
