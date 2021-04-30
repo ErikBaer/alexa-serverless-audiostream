@@ -2,17 +2,18 @@ service: ${file(config/default.json):aws-profile.serviceName}
 provider:
   name: aws
   region: eu-central-1
-  runtime: nodejs12.x
+  runtime: nodejs14.x
   lambdaHashingVersion: 20201221
   stage: dev
-  iamRoleStatements:
-    - Effect: "Allow"
-      Action:
-        - dynamoDB:CreateTable
-        - dynamoDB:GetItem
-        - dynamoDB:PutItem
-      Resource: "arn:aws:dynamodb:*:*:table/usersTable"
-
+  iam:
+    role:
+      statements:
+        - Effect: "Allow"
+          Action:
+            - dynamoDB:CreateTable
+            - dynamoDB:GetItem
+            - dynamoDB:PutItem
+          Resource: "arn:aws:dynamodb:*:*:table/usersTable"
 functions:
   alexa:
     handler: index.handler
@@ -68,8 +69,8 @@ custom:
                 keywords: [ ]
                 name: baer-data
                 summary: Streame deine liebste Radiostation - WRD2 - mit baer data!
-                smallIconUri:  ${file(config/default.json):alexa.assets.smallIconUri}
-                largeIconUri: ${file(config/default.json):alexa.assets.largeIconUri}
+                smallIconUri:  https://baerdata-alexa-streaming-assets.s3.eu-central-1.amazonaws.com/icon_108_A2Z.png
+                largeIconUri: https://baerdata-alexa-streaming-assets.s3.eu-central-1.amazonaws.com/icon_512_A2Z.png
             testingInstructions: Sample Testing Instructions.
           privacyAndCompliance:
             allowsPurchases: false
