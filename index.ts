@@ -15,6 +15,7 @@ exports.handler = Alexa.SkillBuilders.custom()
     .addRequestHandlers(
         LaunchRequestHandler,
         CancelAndStopIntentHandler,
+        HelloWorldIntentHandler,
         SessionEndedRequestHandler)
     .addErrorHandlers(
         RequestErrorHandler)
@@ -29,14 +30,11 @@ exports.handler = Alexa.SkillBuilders.custom()
     .lambda();
 
 
-    //TODO: add uris to  publishingInformation.locales.de-DE.largeIconUri etc. in yml
-    //TODO: Add image and phrase to skill invocation
-    //TODO: Can I have custom intent / skill without helloWorld? Check example / best practice. What intent could i customize?
-    //TODO: wright short deploy script which pipes the skill id to env?! maybe; probably yes. npm run etc.
 
-    //TODO: Revise audio files (find nice jingles??)
-    //TODO: Maybe move IAM to function
-    //TODO: Maybe remove logging interceptors to clean things up (unrequired)
+    //TODO: Revise audio files (find nice jingles??*Maybe just new first sound!)
+    // TODO: deploy-error-warning: ask cli types ?!?*?
 
+    //TODO: Dryrun fresh deployment
+    //TODO: wright short deploy script
     //TODO: Write Docs /   howToRun / whats used / functionality / example usage? Reconsider what you have done, right it down anyway to reproduce quality result!
 

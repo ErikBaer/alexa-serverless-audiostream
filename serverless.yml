@@ -42,9 +42,9 @@ resources:
 
 custom:
   alexa:
-    vendorId: ${file(config/default.json):alexa.vendorId}
-    clientId: ${file(config/default.json):alexa.clientId}
-    clientSecret: ${file(config/default.json):alexa.clientSecret}
+    vendorId: ${file(config/default.json):alexa.credentials.vendorId}
+    clientId: ${file(config/default.json):alexa.credentials.clientId}
+    clientSecret: ${file(config/default.json):alexa.credentials.clientSecret}
     skills:
       - id: ${file(config/default.json):alexa.skillID}
         manifest:
@@ -68,7 +68,19 @@ custom:
                 keywords: [ ]
                 name: baer-data
                 summary: Streame deine liebste Radiostation - WRD2 - mit baer data!
+                smallIconUri:  ${file(config/default.json):alexa.assets.smallIconUri}
+                largeIconUri: ${file(config/default.json):alexa.assets.largeIconUri}
             testingInstructions: Sample Testing Instructions.
+          privacyAndCompliance:
+            allowsPurchases: false
+            usesPersonalInfo: false
+            isChildDirected: false
+            isExportCompliant: true
+            containsAds: false
+            locales:
+              de-DE:
+                privacyPolicyUrl: http://www.myprivacypolicy.erikbaer.de
+                termsOfUseUrl: http://www.termsofuse.erikbaer.de
         models:
           de-DE: ${file(models/model-deDE.json):de-model}
 
