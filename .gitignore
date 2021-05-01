@@ -1,8 +1,5 @@
 node_modules/
 .serverless/
-/config_variables.yml
-/shelf/
-/workspace.xml
-.idea/
 package-lock.json
 src/config/default.json
+.idea/

@@ -2,6 +2,16 @@ import * as Alexa from 'ask-sdk';
 import { RequestHandler, HandlerInput, ErrorHandler } from 'ask-sdk-core';
 import { Response } from 'ask-sdk-model';
 
+import responses from '../responses/responses-de-DE'
+
+const buildSSMLResponse: Function = (emotion: string = "", intensity: string = ""):Function =>
+        (phrase: string, audio: string = ""):string => {
+            const returnPhrase: string = emotion?`<amazon:emotion name="${emotion}" intensity="${intensity}"> ${phrase} </amazon:emotion>`:phrase
+            const returnAudio: string =  audio?`<audio src="${audio}"/>`:""
+            return returnPhrase+returnAudio
+}
+
+
 const LaunchRequestHandler: RequestHandler = {
     canHandle(handlerInput: HandlerInput): boolean {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'LaunchRequest';
@@ -10,8 +20,9 @@ const LaunchRequestHandler: RequestHandler = {
         const sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
         const sessionCounter: number = sessionAttributes['sessionCounter'];
 
-        const speakOutputFirst: string = `<amazon:emotion name="excited" intensity="low"> Hallo, das ist die Erstbegrüßung! </amazon:emotion> <audio src="soundbank://soundlibrary/aircrafts/futuristic/futuristic_04"/>`;
-        const speakOutputLater: string = '<amazon:emotion name="excited" intensity="low"> Hallo, das ist die Zweitbegrüßung!</amazon:emotion> <audio src="soundbank://soundlibrary/aircrafts/futuristic/futuristic_11"/>'
+        const speakOutputFirst: string = buildSSMLResponse("excited", "low")(responses.welcomePhraseOne, responses.welcomeAudioOne)
+
+        const speakOutputLater: string = buildSSMLResponse("excited", "low")(response.welcomePhraseTwo, responses.welcomeAudioTwo)
         const speakOutput: string = !sessionCounter? speakOutputFirst: speakOutputLater
 
         const streamUrl:string = process.env.streamUrl!
@@ -37,7 +48,7 @@ const HelloWorldIntentHandler: RequestHandler = {
             && Alexa.getIntentName(handlerInput.requestEnvelope) === 'HelloWorldIntent';
     },
     handle(handlerInput: HandlerInput): Response {
-        const speakOutput:string = '<amazon:emotion name="excited" intensity="low"> Hallo, schön das es dich gibt! </amazon:emotion>';
+        const speakOutput:string = buildSSMLResponse("excited", "low")(responses.helloWorldPhrase);
         return handlerInput.responseBuilder
             .speak(speakOutput)
             .getResponse();
@@ -52,7 +63,7 @@ const CancelAndStopIntentHandler: RequestHandler = {
                 Alexa.getIntentName(handlerInput.requestEnvelope) === "AMAZON.StopIntent")
     },
     handle(handlerInput: HandlerInput): Response {
-        const speakOutput: string = '<amazon:emotion name="excited" intensity="low">Tschüss, und bis zum nächsten mal! </amazon:emotion>';
+        const speakOutput: string = buildSSMLResponse("excited", "low")(responses.farewellPhrase);
         return handlerInput.responseBuilder
             .speak(speakOutput)
             .addAudioPlayerStopDirective()
@@ -75,7 +86,7 @@ const RequestErrorHandler: ErrorHandler = {
     },
     handle(handlerInput: HandlerInput, error: Error): Response {
         console.log(`~~~~ Error handled: ${error.stack}`);
-        const speakOutput: string = `Entschuldigung, da ist anscheinend etwas schief gelaufen. Bitte versuche es noch einmal.`;
+        const speakOutput: string = buildSSMLResponse()(responses.errorPhrase);
 
         return handlerInput.responseBuilder
             .speak(speakOutput)
