@@ -1,5 +1,6 @@
+.gitignore
 node_modules/
 .serverless/
 package-lock.json
 config/default.json
-.idea/
+.idea/*.*

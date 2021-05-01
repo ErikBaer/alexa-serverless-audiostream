@@ -5,7 +5,7 @@
   "main": "src/index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "create": "sls alexa auth && sls alexa create --name $npm_config_name --locale de-DE --type custom",
+    "create": "sls alexa auth && sls alexa create --name BaerData --locale de-DE --type custom",
     "deploy": "sls deploy && sls alexa build && sls alexa update"
   },
   "author": "",

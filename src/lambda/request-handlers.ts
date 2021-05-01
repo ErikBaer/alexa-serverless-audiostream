@@ -4,11 +4,11 @@ import { Response } from 'ask-sdk-model';
 
 import responses from '../responses/responses-de-DE'
 
-const buildSSMLResponse: Function = (emotion: string = "", intensity: string = ""):Function =>
-        (phrase: string, audio: string = ""):string => {
-            const returnPhrase: string = emotion?`<amazon:emotion name="${emotion}" intensity="${intensity}"> ${phrase} </amazon:emotion>`:phrase
-            const returnAudio: string =  audio?`<audio src="${audio}"/>`:""
-            return returnPhrase+returnAudio
+const buildSSMLResponse: Function = (emotion: string = "", intensity: string = ""): Function =>
+        (phrase: string, audio: string = ""): string => {
+            const returnPhrase: string = emotion?`<amazon:emotion name="${emotion}" intensity="${intensity}"> ${phrase} </amazon:emotion>`: phrase
+            const returnAudio: string =  audio?`<audio src="${audio}"/>` : ""
+            return returnPhrase + returnAudio
 }
 
 
