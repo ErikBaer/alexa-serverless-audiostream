@@ -1,7 +1,0 @@
-{
-  "my_alexa_credentials":{
-    "vendorId": "*SampleId*",
-    "clientId": "amzn1.application-oa2-client.*YourID*",
-    "clientSecret": "*YourSecret*"
-  }
-}

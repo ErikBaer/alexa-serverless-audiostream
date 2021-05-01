@@ -5,4 +5,4 @@ node_modules/
 /workspace.xml
 .idea/
 package-lock.json
-config/default.json
+src/config/default.json

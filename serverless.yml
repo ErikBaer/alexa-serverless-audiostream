@@ -1,4 +1,4 @@
-service: ${file(config/default.json):setup.serviceName}
+service: ${file(src/config/default.json):setup.serviceName}
 provider:
   name: aws
   region: eu-central-1
@@ -13,18 +13,18 @@ provider:
             - dynamoDB:CreateTable
             - dynamoDB:GetItem
             - dynamoDB:PutItem
-          Resource: "arn:aws:dynamodb:${self:provider.region}:${file(config/default.json):credentials.awsAccountId}:table/${self:resources.Resources.usersTable.Properties.TableName}"
+          Resource: "arn:aws:dynamodb:${self:provider.region}:${file(src/config/default.json):credentials.awsAccountId}:table/${self:resources.Resources.usersTable.Properties.TableName}"
 functions:
   alexa:
-    handler: index.handler
+    handler: src/index.handler
     events:
-      - alexaSkill: ${file(config/default.json):setup.skillID}
+      - alexaSkill: ${file(src/config/default.json):setup.skillID}
     name: alexa-streaming-${self:provider.stage}
     environment:
-      streamUrl: ${file(config/default.json):stream.url}
-      streamTitle: ${file(config/default.json):stream.title}
-      streamSubTitle: ${file(config/default.json):stream.subtitle}
-      streamName: ${file(config/default.json):stream.name}
+      streamUrl: ${file(src/config/default.json):stream.url}
+      streamTitle: ${file(src/config/default.json):stream.title}
+      streamSubTitle: ${file(src/config/default.json):stream.subtitle}
+      streamName: ${file(src/config/default.json):stream.name}
       tableName: ${self:resources.Resources.usersTable.Properties.TableName}
 
 
@@ -50,16 +50,16 @@ resources:
 
 custom:
   alexa:
-    vendorId: ${file(config/default.json):credentials.vendorId}
-    clientId: ${file(config/default.json):credentials.clientId}
-    clientSecret: ${file(config/default.json):credentials.clientSecret}
+    vendorId: ${file(src/config/default.json):credentials.vendorId}
+    clientId: ${file(src/config/default.json):credentials.clientId}
+    clientSecret: ${file(src/config/default.json):credentials.clientSecret}
     skills:
-      - id: ${file(config/default.json):setup.skillID}
+      - id: ${file(src/config/default.json):setup.skillID}
         manifest:
           apis:
             custom:
               endpoint:
-                uri: arn:aws:lambda:${self:provider.region}:${file(config/default.json):credentials.awsAccountId}:function:alexa-streaming-${self:provider.stage}
+                uri: arn:aws:lambda:${self:provider.region}:${file(src/config/default.json):credentials.awsAccountId}:function:alexa-streaming-${self:provider.stage}
               interfaces:
                 - type: AUDIO_PLAYER
           manifestVersion: '1.0'
@@ -74,10 +74,10 @@ custom:
                   - öffne baer data
                   - starte baer data
                 keywords: [ ]
-                name: ${file(config/default.json):setup.serviceName}
+                name: ${file(src/config/default.json):setup.serviceName}
                 summary: Streame deine liebste Radiostation - mit baer data!
-                smallIconUri:  ${file(config/default.json):assets.smallIconUri}
-                largeIconUri: ${file(config/default.json):assets.largeIconUri}
+                smallIconUri:  ${file(src/config/default.json):assets.smallIconUri}
+                largeIconUri: ${file(src/config/default.json):assets.largeIconUri}
             testingInstructions: Sample Testing Instructions.
           privacyAndCompliance:
             allowsPurchases: false
@@ -93,8 +93,8 @@ custom:
           de-DE:
             interactionModel:
               languageModel:
-                invocationName: ${file(config/default.json):setup.invocationName}
-                intents: ${file(intents/intents-de-DE.json):intents}
+                invocationName: ${file(src/config/default.json):setup.invocationName}
+                intents: ${file(src/intents/intents-de-DE.json):intents}
                 types: []
 
 
