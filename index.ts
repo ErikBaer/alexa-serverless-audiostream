@@ -34,7 +34,7 @@ exports.handler = Alexa.SkillBuilders.custom()
 
     //TODO: Revise audio files (find nice jingles??*Maybe just new first sound!)
 
+    //TODO: maybe add invocation to default.config; can you insert into json ? Or maybe put it back into sls.yml ? OR maybe leave as is ..
     //TODO: Write Docs /   howToRun / whats used / functionality / example usage? Reconsider what you have done, write it down anyway to reproduce quality result!
-    //TODO: Make another dry run. Delete all first, skills, stack etc.! Then follow the steps and document it all!
     //TODO: create default.example.json --> reassure structure
 

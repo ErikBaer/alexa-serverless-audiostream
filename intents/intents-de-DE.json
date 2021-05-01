@@ -1,9 +1,4 @@
 {
-  "de-model": {
-
-      "interactionModel": {
-        "languageModel": {
-          "invocationName": "baer data",
           "intents": [
             {
               "name": "AMAZON.CancelIntent",
@@ -38,6 +33,3 @@
           ],
           "types": []
         }
-      }
-    }
-  }

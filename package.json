@@ -5,15 +5,15 @@
   "main": "src/index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "sls alexa auth && sls deploy && sls alexa build && sls alexa update"
+    "create": "sls alexa auth && sls alexa create --name $npm_config_name --locale de-DE --type custom",
+    "deploy": "sls deploy && sls alexa build && sls alexa update"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "ask-sdk": "^2.10.2",
     "ask-sdk-dynamodb-persistence-adapter": "^2.10.2",
-    "ask-sdk-model": "^1.35.1",
-    "serverless": "^2.39.0"
+    "ask-sdk-model": "^1.35.1"
   },
   "devDependencies": {
     "@types/node": "^14.11.2",

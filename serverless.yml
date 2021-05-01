@@ -1,4 +1,4 @@
-service: ${file(config/default.json):aws.serviceName}
+service: ${file(config/default.json):setup.serviceName}
 provider:
   name: aws
   region: eu-central-1
@@ -13,12 +13,12 @@ provider:
             - dynamoDB:CreateTable
             - dynamoDB:GetItem
             - dynamoDB:PutItem
-          Resource: "arn:aws:dynamodb:${self:provider.region}:${file(config/default.json):aws.accountId}:table/${self:resources.Resources.usersTable.Properties.TableName}"
+          Resource: "arn:aws:dynamodb:${self:provider.region}:${file(config/default.json):credentials.awsAccountId}:table/${self:resources.Resources.usersTable.Properties.TableName}"
 functions:
   alexa:
     handler: index.handler
     events:
-      - alexaSkill: ${file(config/default.json):alexa.skillID}
+      - alexaSkill: ${file(config/default.json):setup.skillID}
     name: alexa-streaming-${self:provider.stage}
     environment:
       streamUrl: ${file(config/default.json):stream.url}
@@ -50,16 +50,16 @@ resources:
 
 custom:
   alexa:
-    vendorId: ${file(config/default.json):alexa.credentials.vendorId}
-    clientId: ${file(config/default.json):alexa.credentials.clientId}
-    clientSecret: ${file(config/default.json):alexa.credentials.clientSecret}
+    vendorId: ${file(config/default.json):credentials.vendorId}
+    clientId: ${file(config/default.json):credentials.clientId}
+    clientSecret: ${file(config/default.json):credentials.clientSecret}
     skills:
-      - id: ${file(config/default.json):alexa.skillID}
+      - id: ${file(config/default.json):setup.skillID}
         manifest:
           apis:
             custom:
               endpoint:
-                uri: arn:aws:lambda:${self:provider.region}:${file(config/default.json):aws.accountId}:function:alexa-streaming-${self:provider.stage}
+                uri: arn:aws:lambda:${self:provider.region}:${file(config/default.json):credentials.awsAccountId}:function:alexa-streaming-${self:provider.stage}
               interfaces:
                 - type: AUDIO_PLAYER
           manifestVersion: '1.0'
@@ -74,7 +74,7 @@ custom:
                   - öffne baer data
                   - starte baer data
                 keywords: [ ]
-                name: ${file(config/default.json):aws.serviceName}
+                name: ${file(config/default.json):setup.serviceName}
                 summary: Streame deine liebste Radiostation - mit baer data!
                 smallIconUri:  ${file(config/default.json):assets.smallIconUri}
                 largeIconUri: ${file(config/default.json):assets.largeIconUri}
@@ -90,7 +90,12 @@ custom:
                 privacyPolicyUrl: http://www.myprivacypolicy.erikbaer.de
                 termsOfUseUrl: http://www.termsofuse.erikbaer.de
         models:
-          de-DE: ${file(models/model-deDE.json):de-model}
+          de-DE:
+            interactionModel:
+              languageModel:
+                invocationName: ${file(config/default.json):setup.invocationName}
+                intents: ${file(intents/intents-de-DE.json):intents}
+                types: []
 
 
 
