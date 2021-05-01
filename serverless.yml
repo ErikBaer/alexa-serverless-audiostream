@@ -1,4 +1,4 @@
-service: ${file(config/default.json):aws-profile.serviceName}
+service: ${file(config/default.json):aws.serviceName}
 provider:
   name: aws
   region: eu-central-1
@@ -13,13 +13,20 @@ provider:
             - dynamoDB:CreateTable
             - dynamoDB:GetItem
             - dynamoDB:PutItem
-          Resource: "arn:aws:dynamodb:*:*:table/usersTable"
+          Resource: "arn:aws:dynamodb:${self:provider.region}:${file(config/default.json):aws.accountId}:table/${self:resources.Resources.usersTable.Properties.TableName}"
 functions:
   alexa:
     handler: index.handler
     events:
       - alexaSkill: ${file(config/default.json):alexa.skillID}
     name: alexa-streaming-${self:provider.stage}
+    environment:
+      streamUrl: ${file(config/default.json):stream.url}
+      streamTitle: ${file(config/default.json):stream.title}
+      streamSubTitle: ${file(config/default.json):stream.subtitle}
+      streamName: ${file(config/default.json):stream.name}
+      tableName: ${self:resources.Resources.usersTable.Properties.TableName}
+
 
 plugins:
   - serverless-plugin-typescript
@@ -52,7 +59,7 @@ custom:
           apis:
             custom:
               endpoint:
-                uri: arn:aws:lambda:${self:provider.region}:${file(config/default.json):aws-profile.accountId}:function:alexa-streaming-${self:provider.stage}
+                uri: arn:aws:lambda:${self:provider.region}:${file(config/default.json):aws.accountId}:function:alexa-streaming-${self:provider.stage}
               interfaces:
                 - type: AUDIO_PLAYER
           manifestVersion: '1.0'
@@ -62,15 +69,15 @@ custom:
             isAvailableWorldwide: true
             locales:
               de-DE:
-                description: Streame deine liebste Radiostation - WRD2 - mit baer data!
+                description: Streame deine liebste Radiostation - mit baer data!
                 examplePhrases:
                   - öffne baer data
                   - starte baer data
                 keywords: [ ]
-                name: baer-data
-                summary: Streame deine liebste Radiostation - WRD2 - mit baer data!
-                smallIconUri:  https://baerdata-alexa-streaming-assets.s3.eu-central-1.amazonaws.com/icon_108_A2Z.png
-                largeIconUri: https://baerdata-alexa-streaming-assets.s3.eu-central-1.amazonaws.com/icon_512_A2Z.png
+                name: ${file(config/default.json):aws.serviceName}
+                summary: Streame deine liebste Radiostation - mit baer data!
+                smallIconUri:  ${file(config/default.json):assets.smallIconUri}
+                largeIconUri: ${file(config/default.json):assets.largeIconUri}
             testingInstructions: Sample Testing Instructions.
           privacyAndCompliance:
             allowsPurchases: false

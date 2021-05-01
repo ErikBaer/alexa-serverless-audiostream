@@ -9,7 +9,8 @@ import {LoggingRequestInterceptor,
 
 import {LaunchRequestHandler, CancelAndStopIntentHandler, HelloWorldIntentHandler, SessionEndedRequestHandler, RequestErrorHandler} from './lambda/request-handlers'
 
-const dynamoDbPersistenceAdapter : PersistenceAdapter = new DynamoDbPersistenceAdapter({ tableName : 'usersTable' });
+const tableName = process.env.tableName!
+const dynamoDbPersistenceAdapter : PersistenceAdapter = new DynamoDbPersistenceAdapter({tableName});
 
 exports.handler = Alexa.SkillBuilders.custom()
     .addRequestHandlers(
@@ -32,9 +33,8 @@ exports.handler = Alexa.SkillBuilders.custom()
 
 
     //TODO: Revise audio files (find nice jingles??*Maybe just new first sound!)
-    // TODO: deploy-error-warning: ask cli types ?!?*?
 
-    //TODO: Dryrun fresh deployment
-    //TODO: wright short deploy script
-    //TODO: Write Docs /   howToRun / whats used / functionality / example usage? Reconsider what you have done, right it down anyway to reproduce quality result!
+    //TODO: Write Docs /   howToRun / whats used / functionality / example usage? Reconsider what you have done, write it down anyway to reproduce quality result!
+    //TODO: Make another dry run. Delete all first, skills, stack etc.! Then follow the steps and document it all!
+    //TODO: create default.example.json --> reassure structure
 

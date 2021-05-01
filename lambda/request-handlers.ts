@@ -9,21 +9,21 @@ const LaunchRequestHandler: RequestHandler = {
     handle(handlerInput: HandlerInput): Response {
         const sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
         const sessionCounter: number = sessionAttributes['sessionCounter'];
-        const speakOutputFirst: string = '<amazon:emotion name="excited" intensity="low"> Hallo, das ist die Erstbegrüßung! </amazon:emotion> <audio src="soundbank://soundlibrary/aircrafts/futuristic/futuristic_04"/>';
+
+        const speakOutputFirst: string = `<amazon:emotion name="excited" intensity="low"> Hallo, das ist die Erstbegrüßung! </amazon:emotion> <audio src="soundbank://soundlibrary/aircrafts/futuristic/futuristic_04"/>`;
         const speakOutputLater: string = '<amazon:emotion name="excited" intensity="low"> Hallo, das ist die Zweitbegrüßung!</amazon:emotion> <audio src="soundbank://soundlibrary/aircrafts/futuristic/futuristic_11"/>'
         const speakOutput: string = !sessionCounter? speakOutputFirst: speakOutputLater
-        const audioItemMetadata: object = {
-                title: "WRD2 - live-stream",
-                subtitle: "präsentiert von baer data",
 
-                }
+        const streamUrl:string = process.env.streamUrl!
+        const name: string = process.env.streamName!
+        const audioItemMetadata: object = {title: process.env.streamTitle, subtitle: process.env.StreamSubTitle}
 
         return handlerInput.responseBuilder
             .speak(speakOutput)
             .addAudioPlayerPlayDirective(
             'REPLACE_ALL',
-            "https://wdr-wdr2-rheinland.icecastssl.wdr.de/wdr/wdr2/rheinland/mp3/128/stream.mp3",
-            'baer-data-wrd2-steam-1',
+            streamUrl,
+            name,
              0,
              undefined,
              audioItemMetadata )
