@@ -1,5 +1,5 @@
 node_modules/
 .serverless/
 package-lock.json
-src/config/default.json
+config/default.json
 .idea/

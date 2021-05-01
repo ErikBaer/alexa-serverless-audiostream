@@ -22,7 +22,7 @@ const LaunchRequestHandler: RequestHandler = {
 
         const speakOutputFirst: string = buildSSMLResponse("excited", "low")(responses.welcomePhraseOne, responses.welcomeAudioOne)
 
-        const speakOutputLater: string = buildSSMLResponse("excited", "low")(response.welcomePhraseTwo, responses.welcomeAudioTwo)
+        const speakOutputLater: string = buildSSMLResponse("excited", "low")(responses.welcomePhraseTwo, responses.welcomeAudioTwo)
         const speakOutput: string = !sessionCounter? speakOutputFirst: speakOutputLater
 
         const streamUrl:string = process.env.streamUrl!
