@@ -4,6 +4,6 @@ export default {
 "farewellPhrase":  ' Tschüss, und bis zum nächsten Mal!',
 "helloWorldPhrase": ' Hallo, schön das es dich gibt!',
 "errorPhrase": 'Entschuldigung, da ist anscheinend etwas schief gelaufen. Bitte versuche es noch einmal.',
-"welcomeAudioOne" : 'soundbank://soundlibrary/aircrafts/futuristic/futuristic_04',
-"welcomeAudioTwo" : 'soundbank://soundlibrary/aircrafts/futuristic/futuristic_11'
+"welcomeAudioOne" : 'soundbank://soundlibrary/ui/gameshow/amzn_ui_sfx_gameshow_intro_01'
+"welcomeAudioTwo" : 'soundbank://soundlibrary/ui/gameshow/amzn_ui_sfx_gameshow_outro_01'
 }

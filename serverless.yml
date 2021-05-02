@@ -69,13 +69,13 @@ custom:
             isAvailableWorldwide: true
             locales:
               de-DE:
-                description: Streame deine liebste Radiostation - mit baer data!
+                description: Streame deine liebste Radiostation - mit ${file(config/default.json):setup.serviceName}!
                 examplePhrases:
-                  - öffne baer data
-                  - starte baer data
+                  - öffne ${file(config/default.json):setup.invocationName}
+                  - starte ${file(config/default.json):setup.invocationName}
                 keywords: [ ]
                 name: ${file(config/default.json):setup.serviceName}
-                summary: Streame deine liebste Radiostation - mit baer data!
+                summary: Streame deine liebste Radiostation - mit ${file(config/default.json):setup.serviceName}!
                 smallIconUri:  ${file(config/default.json):assets.smallIconUri}
                 largeIconUri: ${file(config/default.json):assets.largeIconUri}
             testingInstructions: Sample Testing Instructions.
