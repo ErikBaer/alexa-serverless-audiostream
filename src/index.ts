@@ -35,4 +35,4 @@ exports.handler = Alexa.SkillBuilders.custom()
     //TODO: Revise audio files (find nice jingles??*Maybe just new first sound!)
 
     //TODO: Write Docs /   howToRun / whats used / functionality / example usage? Reconsider what you have done, write it down anyway to reproduce quality result!
-
+    //TODO: final clean-up

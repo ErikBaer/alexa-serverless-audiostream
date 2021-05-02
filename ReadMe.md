@@ -12,38 +12,34 @@ The implemented Plugin is:
 - Alexa Developer Account
 - Node.js
 
-## Setup:
-
-#### Installation / Configuration
-
-An example configuration can be found at:
- ```
-config/default.example.json
-```
-After revising the values, please rename it to:
- ```
-config/default.json
- ```
-This will also add the file to .gitignore. 
 
 
-#####Install the serverless framework globally:
+## Setup
+
+- Install the serverless framework globally:
 
 ```
 npm i -g serverless
 ``` 
-#####Install dependencies:
+- Install dependencies:
 
 ```
 npm install
 ``` 
-
+- An example configuration can be found at:
+ ```
+config/default.example.json
+```
+After revising and / or customizing specific values, please rename the file to: 
+ ```
+config/default.json
+ ```
 #### Configure credentials
 
-- Configure the AWS credentials for Serverless Framework
-- Retrieve your Alexa-Developer credentials 
-- For simplicity add those credentials to the file config/default.json, together with your AWS_ACCOUNT_ID
-- The values will be injected into the environment at runtime and are not part of any version-control! 
+- Configure Serverless Framework for the provider AWS
+- Retrieve the credentials of your Amazon-Developer account
+- For the purpose of this example please add those  credentials to the file config/default.json (- ignored by git)
+ 
 ###### For detailed information on how to retrieve and configure your credentials, please kindly refer to these sources below: 
 https://www.serverless.com/framework/docs/providers/aws/guide/credentials/
 
@@ -53,18 +49,44 @@ https://www.serverless.com/blog/how-to-manage-your-alexa-skills-with-serverless
 
 
 
-#### Create skill
+## Create skill
+Execute the npm script "create":
 ```
 npm run create  
 ```
-- login to your developer-account via browser pop-up
-- after the skill is successfully created, copy the SKILLId from the output in  the console
 
-## Deployment:
-run 
+```
+"create": "sls alexa auth && sls alexa create --name BaerData --locale de-DE --type custom",
+```
+##### Sls alexa auth
+- Login to your Amazon-Developer account in your Browser (pop-up window)
+##### Sls alexa create
+- A new Amazon Skill is created via the Skill Management APIs (SMAPI) 
+- The given default values can be customized by passing in custom values to the script:
+```
+npm run create --name YourSkill --locale en-US --type custom
+```
+   
+- After the skill is successfully created, the corresponding Amazon-SKILL-ID is return to the console
+- Please copy that Skill-ID and insert it into the config-file (default.json) at the appropriate position 
+
+## Deployment
+Execute the npm script "deploy":
 ```
 npm run deploy
 ```
+```
+"deploy": "sls deploy && sls alexa build && sls alexa update"
+```
+##### sls deploy
 - the cloudformation stack is build and the lambdas etc. are deployed
+##### sls alexa build
 - the Skill is build according to configuration
+##### sls alexa update
 - the skill-manifest is updated 
+
+### Usage
+
+##### Open Alexa
+##### Ask Alexa to "...start baer data"
+#### Have fun with your favourite radio-stream!
