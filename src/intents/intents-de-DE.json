@@ -1,35 +1,33 @@
 {
-          "intents": [
-            {
-              "name": "AMAZON.CancelIntent",
-              "samples": []
-            },
-            {
-              "name": "AMAZON.StopIntent",
-              "samples": []
-            },
-            {
-              "name": "HelloWorldIntent",
-              "slots": [],
-              "samples": [
-                "hallo",
-                "hallo Welt",
-                "hey",
-                "hi"
-              ]
-            },
-            {
-              "name": "AMAZON.NavigateHomeIntent",
-              "samples": []
-            },
-            {
-              "name": "AMAZON.PauseIntent",
-              "samples": []
-            },
-            {
-              "name": "AMAZON.ResumeIntent",
-              "samples": []
-            }
-          ],
-          "types": []
-        }
+  "intents": [
+    {
+      "name": "AMAZON.CancelIntent",
+      "samples": []
+    },
+    {
+      "name": "AMAZON.StopIntent",
+      "samples": []
+    },
+    {
+      "name": "HelloWorldIntent",
+      "slots": [],
+      "samples": [
+        "hallo",
+        "hallo Welt",
+        "hey"
+      ]
+    },
+    {
+      "name": "AMAZON.NavigateHomeIntent",
+      "samples": []
+    },
+    {
+      "name": "AMAZON.PauseIntent",
+      "samples": []
+    },
+    {
+      "name": "AMAZON.ResumeIntent",
+      "samples": []
+    }
+  ]
+}

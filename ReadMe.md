@@ -1,13 +1,15 @@
-# Simple Alexa Skill – Radio Streaming
+# Simple Alexa Skill – Radio Streaming by BaerData
 
 ## Description:
 
-A simple skill bl. Written in typescript. All done via serverless framework, from creation via configuration and deployment. 
+An example for a simple Alexa-skill bl. Written in typescript. containing .. All done via serverless framework, from creation via configuration and deployment. 
 The implemented Plugin is:
 	- serverless-alexa-skills 
 	link
 	
-	https://www.serverless.com/
+https://www.serverless.com/
+
+https://www.serverless.com/plugins/serverless-alexa-skills
 
 ## Prerequisites:
 - AWS Account
@@ -19,7 +21,6 @@ The implemented Plugin is:
 ## Setup
 
 - install the serverless framework globally:
-
 ```
 npm i -g serverless
 ``` 
@@ -61,12 +62,13 @@ npm run create
 {"create": "sls alexa auth && sls alexa create --name BaerData --locale de-DE --type custom"}
 ```
 ##### sls alexa auth
+- authenticate with Amazon OAuth2
 - login to your Amazon-Developer account by browser pop-up
 ##### sls alexa create
 - a new Amazon Skill is created via the Skill Management APIs (SMAPI) 
 - the given default values can be customized by passing in custom values to the script:
 ```
-npm run create --name YourSkill --locale en-US --type custom
+npm run create --name YourSkill --locale xx-XX --type custom
 ```
    
 - after the skill is successfully created, the corresponding Amazon-SKILL-ID is return to the console
@@ -89,7 +91,7 @@ npm run deploy
 - the skill-manifest is updated with general configurations & further assets
 
 ### Usage
-##### start baer data
+##### start BaerData
 - activate Alexa or go to the Amazon Developer Console
 - invoke the Skill by its invocationName
 - for this demonstration, just ask Alexa to "start baer data" and ...

@@ -4,23 +4,21 @@
   "description": "",
   "main": "src/index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "create": "sls alexa auth && sls alexa create --name BaerData --locale de-DE --type custom",
     "deploy": "sls deploy && sls alexa build && sls alexa update"
   },
-  "author": "",
+  "author": "Erik Baer",
   "license": "ISC",
   "dependencies": {
     "ask-sdk": "^2.10.2",
-    "ask-sdk-dynamodb-persistence-adapter": "^2.10.2",
-    "ask-sdk-model": "^1.35.1"
+    "ask-sdk-model": "^1.35.1",
+    "ask-sdk-dynamodb-persistence-adapter": "^2.10.2"
   },
   "devDependencies": {
-    "@types/node": "^14.11.2",
-    "serverless-alexa-skills": "^0.1.0",
-    "serverless-offline": "^7.0.0",
-    "serverless-plugin-typescript": "^1.1.9",
     "ts-node": "^9.0.0",
-    "typescript": "^4.2.4"
+    "@types/node": "^14.11.2",
+    "typescript": "^4.2.4",
+    "serverless-plugin-typescript": "^1.1.9",
+    "serverless-alexa-skills": "^0.1.0"
   }
 }

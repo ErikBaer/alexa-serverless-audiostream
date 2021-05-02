@@ -1,25 +1,24 @@
 const Alexa = require('ask-sdk-core');
-import { HandlerInput} from 'ask-sdk-core';
+import { HandlerInput, RequestInterceptor, ResponseInterceptor} from 'ask-sdk-core';
 import {Response} from 'ask-sdk-model'
-
 
 const PERSISTENT_ATTRIBUTES_NAMES = [ 'sessionCounter'];
 
 // This request interceptor will log all incoming requests to this lambda
-const LoggingRequestInterceptor = {
+const LoggingRequestInterceptor: ResponseInterceptor = {
     process(handlerInput: HandlerInput): void {
         console.log(`Incoming request: ${JSON.stringify(handlerInput.requestEnvelope)}`);
     }
 };
 
 // This response interceptor will log all outgoing responses of this lambda
-const LoggingResponseInterceptor = {
+const LoggingResponseInterceptor: ResponseInterceptor = {
     process(_: HandlerInput, response: Response): void {
         console.log(`Outgoing response: ${JSON.stringify(response)}`);
     }
 };
 
-const LoadAttributesRequestInterceptor = {
+const LoadAttributesRequestInterceptor: RequestInterceptor = {
     async process(handlerInput: HandlerInput) : Promise<void>{
         const {attributesManager, requestEnvelope} = handlerInput;
         const sessionAttributes = attributesManager.getSessionAttributes();
@@ -34,7 +33,7 @@ const LoadAttributesRequestInterceptor = {
     }
 };
 
-const SaveAttributesResponseInterceptor = {
+const SaveAttributesResponseInterceptor: ResponseInterceptor = {
     async process(handlerInput: HandlerInput, response: Response): Promise<void> {
         if (!response) return; // avoid intercepting calls that have no outgoing response due to errors
         const {attributesManager, requestEnvelope} = handlerInput;
@@ -55,9 +54,6 @@ const SaveAttributesResponseInterceptor = {
         }
     }
 };
-
-
-
 
 
 export {

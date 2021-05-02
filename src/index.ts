@@ -2,11 +2,7 @@ import * as Alexa from 'ask-sdk';
 import { DynamoDbPersistenceAdapter } from 'ask-sdk-dynamodb-persistence-adapter'
 import { PersistenceAdapter} from 'ask-sdk-core';
 
-import {LoggingRequestInterceptor,
-            LoggingResponseInterceptor,
-            LoadAttributesRequestInterceptor,
-            SaveAttributesResponseInterceptor} from './lambda/interceptors'
-
+import {LoggingRequestInterceptor, LoggingResponseInterceptor, LoadAttributesRequestInterceptor, SaveAttributesResponseInterceptor} from './lambda/interceptors'
 import {LaunchRequestHandler, CancelAndStopIntentHandler, HelloWorldIntentHandler, SessionEndedRequestHandler, RequestErrorHandler} from './lambda/request-handlers'
 
 const tableName = process.env.tableName!
@@ -31,8 +27,4 @@ exports.handler = Alexa.SkillBuilders.custom()
     .lambda();
 
 
-
-    //TODO: Revise audio files (find nice jingles??*Maybe just new first sound!)
-
-    //TODO: Write Docs /   howToRun / whats used / functionality / example usage? Reconsider what you have done, write it down anyway to reproduce quality result!
-    //TODO: final clean-up
+    //TODO: write description for Read.me

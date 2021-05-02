@@ -4,13 +4,13 @@ import { Response } from 'ask-sdk-model';
 
 import responses from '../responses/responses-de-DE'
 
-const buildSSMLResponse: Function = (emotion: string = "", intensity: string = ""): Function =>
-        (phrase: string, audio: string = ""): string => {
-            const returnPhrase: string = emotion?`<amazon:emotion name="${emotion}" intensity="${intensity}"> ${phrase} </amazon:emotion>`: phrase
-            const returnAudio: string =  audio?`<audio src="${audio}"/>` : ""
-            return returnPhrase + returnAudio
-}
 
+const buildSSMLResponse: Function = (emotion: string = "", intensity: string = ""): Function =>
+    (phrase: string, audio: string = ""): string => {
+        const returnPhrase: string = emotion?`<amazon:emotion name="${emotion}" intensity="${intensity}"> ${phrase} </amazon:emotion>`: phrase
+        const returnAudio: string =  audio?`<audio src="${audio}"/>` : ""
+        return returnPhrase + returnAudio
+}
 
 const LaunchRequestHandler: RequestHandler = {
     canHandle(handlerInput: HandlerInput): boolean {
@@ -21,7 +21,6 @@ const LaunchRequestHandler: RequestHandler = {
         const sessionCounter: number = sessionAttributes['sessionCounter'];
 
         const speakOutputFirst: string = buildSSMLResponse("excited", "low")(responses.welcomePhraseOne, responses.welcomeAudioOne)
-
         const speakOutputLater: string = buildSSMLResponse("excited", "low")(responses.welcomePhraseTwo, responses.welcomeAudioTwo)
         const speakOutput: string = !sessionCounter? speakOutputFirst: speakOutputLater
 
@@ -37,7 +36,8 @@ const LaunchRequestHandler: RequestHandler = {
             name,
              0,
              undefined,
-             audioItemMetadata )
+             audioItemMetadata
+             )
             .getResponse();
     }
 };

@@ -1,23 +1,26 @@
 {
   "credentials": {
     "awsAccountId": "**YOUR_AWS_ACCOUNT_ID**",
+    "awsRegion": "**YOUR_AWS_REGION**",
     "vendorId": "**YOUR_VENDOR_ID**",
     "clientId": "**YOUR_CLIENT_ID**",
     "clientSecret": "**YOUR_CLIENT_SECRET**"
-  },
+    },
   "setup": {
     "skillID": "**YOUR_SKILL_ID**",
     "serviceName": "BaerData",
     "invocationName": "baer data"
-  },
+    },
   "stream": {
     "url": "https://wdr-wdr2-rheinland.icecastssl.wdr.de/wdr/wdr2/rheinland/mp3/128/stream.mp3",
     "name": "WRD2 - Baer Data",
-    "title": "Das Live-program von WRD 2 als Live-Stream über Alexa ",
+    "title": "Das Live-program von WRD 2 als Live-Stream über Amazon Alexa",
     "subtitle": "präsentiert von baer data"
-  },
+    },
   "assets": {
     "smallIconUri":  "https://baerdata-alexa-streaming-assets.s3.eu-central-1.amazonaws.com/icon_108_A2Z.png",
-    "largeIconUri": "https://baerdata-alexa-streaming-assets.s3.eu-central-1.amazonaws.com/icon_512_A2Z.png"
-  }
+    "largeIconUri": "https://baerdata-alexa-streaming-assets.s3.eu-central-1.amazonaws.com/icon_512_A2Z.png",
+    "privacyPolicyUrl": "http://www.myprivacypolicy.erikbaer.de",
+    "termsOfUseUrl":"http://www.termsofuse.erikbaer.de"
+    }
 }
