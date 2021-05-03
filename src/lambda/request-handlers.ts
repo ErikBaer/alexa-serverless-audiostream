@@ -30,14 +30,7 @@ const LaunchRequestHandler: RequestHandler = {
 
         return handlerInput.responseBuilder
             .speak(speakOutput)
-            .addAudioPlayerPlayDirective(
-            'REPLACE_ALL',
-            streamUrl,
-            name,
-             0,
-             undefined,
-             audioItemMetadata
-             )
+            .addAudioPlayerPlayDirective('REPLACE_ALL', streamUrl, name, 0, undefined, audioItemMetadata)
             .getResponse();
     }
 };

@@ -2,23 +2,35 @@
 
 ## Description:
 
-An example for a simple Alexa-skill bl. Written in typescript. containing .. All done via serverless framework, from creation via configuration and deployment. 
-The implemented Plugin is:
-	- serverless-alexa-skills 
-	link
-	
-https://www.serverless.com/
+Just invoke the Skill and enjoy listening to the stream of your favourite radio-station.
+
+An example for a simple Alexa-skill configured and implemented via the serverless framework, written in node.js and typescript. 
+ This solution is partly based on a reference implementation by the Alexa Developer Team, as presented and discussed 
+ in the multi-part video-series "Zero to Hero: A comprehensive course to building an Alexa Skill". Please kindly find the source code as well as further information on the reference series and beyond by following the links below:
+
+ https://alexa.design/Z2H1
+ 
+ https://www.serverless.com/
+ 
+ https://www.serverless.com/plugins/serverless-plugin-typescript
+
+In order to enable full development, configuration as well as deployment of the  Alexa-Skill alongside the necessary backend resources directly via the Serverless Framework,
+this solution additionally leverages capabilities of the official SDK, realized via the plugin "serverless-alexa-skills": 
+
+https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs
 
 https://www.serverless.com/plugins/serverless-alexa-skills
+	
+
 
 ## Prerequisites:
 - AWS Account
 - Amazon Developer Account
-- node.js vx.xx
+- Node.js
 
 
 
-## Setup
+## Setup:
 
 - install the serverless framework globally:
 ```
@@ -39,7 +51,7 @@ config/default.json
  ```
 #### Configure credentials
 
-- configure Serverless Framework for the provider AWS
+- configure the serverless framework for the provider AWS
 - retrieve the credentials for api access to your Amazon-Developer account
 - for the purpose of this example please add those credentials to the file config/default.json (- ignored by git)
  
@@ -52,7 +64,7 @@ https://www.serverless.com/blog/how-to-manage-your-alexa-skills-with-serverless
 
 
 
-## Create skill
+## Create Skill:
 Execute the npm script "create":
 ```
 npm run create  
@@ -68,13 +80,13 @@ npm run create
 - a new Amazon Skill is created via the Skill Management APIs (SMAPI) 
 - the given default values can be customized by passing in custom values to the script:
 ```
-npm run create --name YourSkill --locale xx-XX --type custom
+npm run create --name **YourSkill** --locale **xx-XX** --type custom
 ```
    
 - after the skill is successfully created, the corresponding Amazon-SKILL-ID is return to the console
 - ##### please copy that Skill-ID and insert it into the config-file (default.json) at the appropriate position 
 
-## Deployment
+## Deployment:
 Execute the npm script "deploy":
 ```
 npm run deploy
@@ -84,15 +96,15 @@ npm run deploy
 ```
 ##### sls deploy
 - the lambda function containing all business logic is compiled, build and then deployed
-- a corresponding cloudformation-stack containing all required resources for the backend of your skill is released
+- a corresponding AWS-Cloudformation stack is released, providing all required resources and permissions for the backend of your skill 
 ##### sls alexa build
-- the interaction models for your Skill are build 
+- the respective interaction models for your skill are build and published
 ##### sls alexa update
-- the skill-manifest is updated with general configurations & further assets
+- the skill-manifest is updated with further configurations as well as related assets
 
-### Usage
+### Usage:
 ##### start BaerData
 - activate Alexa or go to the Amazon Developer Console
 - invoke the Skill by its invocationName
 - for this demonstration, just ask Alexa to "start baer data" and ...
-##### ... Have fun with your favourite radio-stream!
+##### ... have fun with your favourite radio-stream!

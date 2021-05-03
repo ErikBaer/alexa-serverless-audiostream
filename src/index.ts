@@ -26,5 +26,3 @@ exports.handler = Alexa.SkillBuilders.custom()
          dynamoDbPersistenceAdapter)
     .lambda();
 
-
-    //TODO: write description for Read.me
