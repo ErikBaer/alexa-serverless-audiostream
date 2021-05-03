@@ -104,7 +104,7 @@ npm run deploy
 
 ### Usage:
 ##### start BaerData
-- activate Alexa or go to the Amazon Developer Console
-- invoke the Skill by its invocationName
-- for this demonstration, just ask Alexa to "start baer data" and ...
+- activate the skill by going to the Amazon Developer Console
+- access the "Test" tab and enable testing for the environment "development"
+- then for this demonstration, open up Alexa and tell her to just "start baer data" and ...
 ##### ... have fun with your favourite radio-stream!
