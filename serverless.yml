@@ -18,10 +18,11 @@ provider:
 plugins:
   - serverless-plugin-typescript
   - serverless-alexa-skills
+  - serverless-dynamodb-local
 
 functions:
   alexa:
-    handler: src/index.handler
+    handler: src/lambda/index.handler
     events:
       - alexaSkill: ${file(config/default.json):setup.skillID}
     name: alexa-streaming-${self:provider.stage}
@@ -47,6 +48,21 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
+
+    testTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: testTable
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+
 
 custom:
   alexa:
@@ -96,8 +112,18 @@ custom:
                 invocationName: ${file(config/default.json):setup.invocationName}
                 intents: ${file(src/intents/intents-de-DE.json):intents}
                 types: []
-
-
+  dynamodb:
+    stages:
+      - dev
+    start:
+      port: 8000
+      inMemory: true
+      heapInitial: 200m
+      heapMax: 1g
+      migrate: true
+      seed: false
+      convertEmptyValues: true
+      detached: true
 
 
 

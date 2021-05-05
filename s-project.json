@@ -1,0 +1,12 @@
+{
+  "custom": {
+    "dynamodb": {
+      "start": {
+        "port": "8000",
+        "inMemory": true,
+        "migration": true
+      }
+    },
+"plugin": ["serverless-dynamodb-local"]
+  }
+}
