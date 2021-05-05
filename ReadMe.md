@@ -108,3 +108,26 @@ npm run deploy
 - access the "Test" tab and enable testing for the environment "development"
 - then for this demonstration, open up Alexa and tell her to just "start baer data" and ...
 ##### ... have fun with your favourite radio-stream!
+
+### Tests:
+
+##### npm run test
+
+- testing is realized via the 'alexa-skill-testing-framework'
+- the plugin serverless-dynamodb-local ist used to test the persistence of sessionattributes
+- linting ist done via tslint, extending on the tslint.config from air-bnb
+- just run npm run test
+
+```
+npm run test
+```
+```
+"test": " npm run lint && npm run db-cleanup && sls dynamodb start & sleep 5 && mocha --require node_modules/ts-node/register/index.js test/*.spec.ts && npm run db-cleanup",
+```
+- the script db-cleanup deals with a shortcoming of dynamodb-local, namely that the DB-process can not be terminated programmatically
+- an effective workaround ist presented in the script below, identifying the specific process and the killing it individually
+```
+"db-cleanup": "kill `ps -ax | grep Dynamo | grep -v grep | awk '{print $1}'` >/dev/null 2>&1 &"
+```
+
+Please feel free to contact me with questions, suggestions and anything else remotely helpful or interesting :)
