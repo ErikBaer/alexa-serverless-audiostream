@@ -1,11 +1,8 @@
-
+const alexaTest = require('alexa-skill-test-framework');
 
 const {buildSSMLResponse} = require ('../src/lambda/request-handlers')
-// include the testing framework
-const alexaTest = require('alexa-skill-test-framework');
-//import { AudioPlayerPauseIntentRequestBuilder, AudioPlayerResumeIntentRequestBuilder } from '../../lib/factory/AudioIntentRequestBuilder';
-
 import responses from '../src/responses/responses-de-DE'
+
 const url= 'https://wdr-wdr2-rheinland.icecastssl.wdr.de/wdr/wdr2/rheinland/mp3/128/stream.mp3'
 const token = 'WRD2 - Baer Data'
 
@@ -13,7 +10,6 @@ process.env.NODE_ENV = 'test'
 process.env.AWS_REGION = 'eu-central-1'
 process.env.streamUrl = url
 process.env.streamName = token
-
 
 // initialize the testing framework
 alexaTest.initialize(
@@ -23,13 +19,14 @@ alexaTest.initialize(
 
 alexaTest.setLocale('de-DE')
 
+// **Baer Data Streaming Skill Tests**
 
 describe("BaerData Skill", function () {
 
 	//**LaunchRequest**
 
 	describe("LaunchRequest", function () {
-        describe('should return the correct response', function() {
+        describe('should return the correct initial welcome response', function() {
                     alexaTest.test([
                         {
                             request: alexaTest.getLaunchRequest(),
@@ -38,11 +35,19 @@ describe("BaerData Skill", function () {
                 ]);
             })
 
+        describe('should add the correct recurring welcome response', function() {
+                            alexaTest.test([
+                                {
+                                    request: alexaTest.getLaunchRequest(),
+                                    says: buildSSMLResponse("excited", "low")(responses.welcomePhraseTwo, responses.welcomeAudioTwo)
+                                }
+                        ]);
+                    })
+
         describe('should add an AudioPlayerPlayDirective', function() {
                     alexaTest.test([
                         {
                             request: alexaTest.getLaunchRequest(),
-                            says: buildSSMLResponse("excited", "low")(responses.welcomePhraseTwo, responses.welcomeAudioTwo),
                             playsStream: {
                                             behavior: 'REPLACE_ALL',
                                             url,
@@ -128,7 +133,7 @@ describe("BaerData Skill", function () {
     //**CancelIntent**
 
     describe("CancelIntent", function () {
-            describe('should return the correct response', function() {
+            describe('should return the farewell response', function() {
                         alexaTest.test([
                             {
                                 request: alexaTest.getIntentRequest("AMAZON.CancelIntent"),
@@ -156,33 +161,6 @@ describe("BaerData Skill", function () {
                 })
         })
 
-    //**ResumeIntent**
-
-    describe("ResumeIntent", function () {
-
-        describe('should start the AudioPlayer', function() {
-                    alexaTest.test([
-                        {
-                            request: alexaTest.getIntentRequest("AMAZON.ResumeIntent"),
-                            playsStream: {
-                                            behavior: 'REPLACE_ALL',
-                                            url,
-                                            token
-                                         }
-                        }
-                    ]);
-            })
-
-        describe('should end the session', function() {
-                     alexaTest.test([
-                            {
-                               request: alexaTest.getIntentRequest("AMAZON.ResumeIntent"),
-                               shouldEndSession: true
-                            }
-                    ]);
-            })
-        })
-
     //**HelloWorldIntent**
 
     describe("HelloWorldIntent", function () {
@@ -208,10 +186,7 @@ describe("BaerData Skill", function () {
     });
 
 
-//TODO: final-clean up (e.g. try removing s-project.json --> should be obsolete by sls.yml)
 //TODO: deploy, test functionality and push
 
 //TODO: communicate finalized result *here*!
 
-//TODO: try implementing npm config again
-//TODO: LaunchRequest: maybe add tests for stream and token

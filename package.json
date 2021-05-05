@@ -4,8 +4,8 @@
   "description": "",
   "main": "src/lambda/index.ts",
   "scripts": {
-    "lint": "tslint --fix 'src/**/*{.ts,.tsx}' ",
-    "test": " npm run db-cleanup && sls dynamodb start & sleep 5 && mocha --require node_modules/ts-node/register/index.js test/*.spec.ts && npm run db-cleanup",
+    "lint": "tslint 'src/**/*{.ts,.tsx}'",
+    "test": " npm run lint && npm run db-cleanup && sls dynamodb start & sleep 5 && mocha --require node_modules/ts-node/register/index.js test/*.spec.ts && npm run db-cleanup",
     "db-cleanup": "kill `ps -ax | grep Dynamo | grep -v grep | awk '{print $1}'` >/dev/null 2>&1 &",
     "create": "sls alexa auth && sls alexa create --name BaerData --locale de-DE --type custom",
     "deploy": "npm run test && sls deploy && sls alexa build && sls alexa update"
@@ -17,6 +17,7 @@
     "ask-sdk": "^2.10.2",
     "ask-sdk-dynamodb-persistence-adapter": "^2.10.2",
     "ask-sdk-model": "^1.35.1",
+    "ask-sdk-test": "^2.6.0",
     "mocha": "^8.3.2",
     "serverless-dynamodb-local": "^0.2.39"
   },
@@ -28,6 +29,7 @@
     "serverless-plugin-typescript": "^1.1.9",
     "ts-node": "^9.0.0",
     "tslint": "^6.1.3",
+    "tslint-config-airbnb-base": "^0.3.0",
     "tslint-config-olo": "^0.4.1",
     "typescript": "^4.2.4"
   }

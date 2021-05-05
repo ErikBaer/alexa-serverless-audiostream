@@ -27,9 +27,7 @@
     },
     {
       "name": "AMAZON.ResumeIntent",
-      "samples": [
-        "weiter"
-        ]
+      "samples": []
     }
   ]
 }
