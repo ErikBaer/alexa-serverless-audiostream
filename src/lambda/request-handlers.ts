@@ -1,12 +1,12 @@
-// tslint:disable:ter-max-len variable-name
-
+/* eslint-disable @typescript-eslint/no-var-requires */
 import * as Alexa from 'ask-sdk';
 import { RequestHandler, HandlerInput, ErrorHandler } from 'ask-sdk-core';
 import { Response } from 'ask-sdk-model';
+const config = require('config');
 
 import responses from '../responses/responses-de-DE';
 
-const buildSSMLResponse: Function = (emotion = '', intensity = ''): Function =>
+const buildSSMLResponse: string = (emotion = '', intensity = ''): ()=>string =>
     (phrase: string, audio = ''): string => {
       const returnPhrase: string = emotion ? `<amazon:emotion name="${emotion}" intensity="${intensity}"> ${phrase} </amazon:emotion>`: phrase;
       const returnAudio: string = audio ? `<audio src="${audio}"/>` : '';
@@ -25,13 +25,12 @@ const LaunchRequestHandler: RequestHandler = {
     const speakOutputLater: string = buildSSMLResponse('excited', 'low')(responses.welcomePhraseTwo, responses.welcomeAudioTwo);
     const speakOutput: string = !sessionCounter ? speakOutputFirst : speakOutputLater;
 
-    const streamUrl: string = process.env.streamUrl!;
-    const streamName: string = process.env.streamName!;
-    const audioItemMetadata: object = { title: process.env.streamTitle, subtitle: process.env.StreamSubTitle };
+    const {url: string, name: string, title: string, subtitle: string } = config.get('stream')
+    const audioItemMetadata: {title: string, subtitle: string} = { title, subtitle };
 
     return handlerInput.responseBuilder
             .speak(speakOutput)
-            .addAudioPlayerPlayDirective('REPLACE_ALL', streamUrl, streamName, 0, undefined, audioItemMetadata)
+            .addAudioPlayerPlayDirective('REPLACE_ALL', url, name, 0, undefined, audioItemMetadata)
             .getResponse();
   },
 };
