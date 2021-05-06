@@ -1,7 +1,7 @@
 const alexaTest = require('alexa-skill-test-framework');
 
-const {buildSSMLResponse} = require ('../src/lambda/request-handlers')
-import responses from '../src/responses/responses-de-DE'
+const {buildSSMLResponse} = require ('../../../src/lambda/request-handlers')
+import responses from '../../../src/responses/responses-de-DE'
 
 const url= 'https://wdr-wdr2-rheinland.icecastssl.wdr.de/wdr/wdr2/rheinland/mp3/128/stream.mp3'
 const token = 'WRD2 - Baer Data'
@@ -13,7 +13,7 @@ process.env.streamName = token
 
 // initialize the testing framework
 alexaTest.initialize(
-	require('../src/lambda/index'),
+	require('../../../src/lambda/index'),
 	"amzn1.ask.skill.00000000-0000-0000-0000-000000000000",
 	"amzn1.ask.account.VOID");
 

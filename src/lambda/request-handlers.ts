@@ -6,12 +6,14 @@ const config = require('config');
 
 import responses from '../responses/responses-de-DE';
 
-const buildSSMLResponse: string = (emotion = '', intensity = ''): ()=>string =>
-    (phrase: string, audio = ''): string => {
-      const returnPhrase: string = emotion ? `<amazon:emotion name="${emotion}" intensity="${intensity}"> ${phrase} </amazon:emotion>`: phrase;
-      const returnAudio: string = audio ? `<audio src="${audio}"/>` : '';
-      return returnPhrase + returnAudio;
+const buildSSMLResponse = (emotion = '', intensity = '') =>
+  (phrase:string, audio = ''):string => {
+    const getReturnPhrase: string = emotion ? `<amazon:emotion name="${emotion}" intensity="${intensity}"> ${phrase} </amazon:emotion>`: phrase;
+    const returnAudio: string = audio ? `<audio src="${audio}"/>` : '';
+    return returnPhrase + returnAudio;
     };
+
+
 
 const LaunchRequestHandler: RequestHandler = {
   canHandle(handlerInput: HandlerInput): boolean {
@@ -23,13 +25,13 @@ const LaunchRequestHandler: RequestHandler = {
 
     const speakOutputFirst: string = buildSSMLResponse('excited', 'low')(responses.welcomePhraseOne, responses.welcomeAudioOne);
     const speakOutputLater: string = buildSSMLResponse('excited', 'low')(responses.welcomePhraseTwo, responses.welcomeAudioTwo);
-    const speakOutput: string = !sessionCounter ? speakOutputFirst : speakOutputLater;
+    const pickWelcomeOutput: ()=> string = () => !sessionCounter ? speakOutputFirst : speakOutputLater;
 
-    const {url: string, name: string, title: string, subtitle: string } = config.get('stream')
+    const {url, name, title, subtitle} = config.get('stream')
     const audioItemMetadata: {title: string, subtitle: string} = { title, subtitle };
 
     return handlerInput.responseBuilder
-            .speak(speakOutput)
+            .speak(pickWelcomeOutput())
             .addAudioPlayerPlayDirective('REPLACE_ALL', url, name, 0, undefined, audioItemMetadata)
             .getResponse();
   },
