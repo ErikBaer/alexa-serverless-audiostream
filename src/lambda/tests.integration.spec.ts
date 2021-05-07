@@ -1,7 +1,7 @@
 import responses from '../responses/responses-de-DE';
+import { buildSSMLResponse } from './request-handlers';
 
 const alexaTest = require('alexa-skill-test-framework');
-const { buildSSMLResponse } = require('./request-handlers');
 
 const {
   welcomePhraseOne,

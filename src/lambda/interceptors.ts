@@ -5,14 +5,12 @@ import logger from '../utils/logger';
 
 const PersistentAttributesNames = ['sessionCounter'];
 
-// This request interceptor will log all incoming requests to this lambda
 const LoggingRequestInterceptor: ResponseInterceptor = {
   process(handlerInput: HandlerInput): void {
     logger.info(`Incoming request: ${JSON.stringify(handlerInput.requestEnvelope)}`);
   },
 };
 
-// This response interceptor will log all outgoing responses of this lambda
 const LoggingResponseInterceptor: ResponseInterceptor = {
   process(_: HandlerInput, response: Response): void {
     logger.info(`Outgoing response: ${JSON.stringify(response)}`);
@@ -41,7 +39,6 @@ const SaveAttributesResponseInterceptor: ResponseInterceptor = {
     const { attributesManager, requestEnvelope } = handlerInput;
     const sessionAttributes = attributesManager.getSessionAttributes();
     const shouldEndSession: boolean = typeof response.shouldEndSession === 'undefined' ? true : response.shouldEndSession; // is this a session end?
-    // the "loaded" check is because the session "new" flag is on rara occasions
     const loadedThisSession: boolean = sessionAttributes.loaded;
     if (
       (shouldEndSession || Alexa.getRequestType(requestEnvelope) === 'SessionEndedRequest')
