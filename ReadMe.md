@@ -95,12 +95,12 @@ npm run deploy
 "deploy": " {npm run test && npm run lint && sls deploy && sls alexa build && sls alexa update"}
 ```
 ##### sls deploy
-- the lambda function containing all business logic is compiled, build and then deployed
+- the lambda function containing all business logic is compiled, build and then deployed to AWS
 - a corresponding AWS-Cloudformation stack is released, providing all required resources and permissions for the backend of your skill 
 ##### sls alexa build
-- the respective interaction models for your skill are build and published
+- the respective interaction models for your skill are build and published via the Alexa Developer Console
 ##### sls alexa update
-- the skill-manifest is updated with further configurations as well as related assets
+- the underlying skill-manifest is updated with further configurations as well as related assets
 
 ### Usage:
 ##### start BaerData
@@ -113,15 +113,15 @@ npm run deploy
 
 ##### npm run test
 
-- testing is implemented via the frameworks mocha/chai as well as the alexa-skill-testing-framework
+- integration tests are implemented via the frameworks mocha & chai as well as the alexa-skill-testing-framework
 - the plugin serverless-dynamodb-local ist used to enable testing of attribute persistence
 
-
 ```
-"lint": "eslint -c .eslintrc.js 'src/**/*{.ts,.tsx}' "
-"test": "npm run db-cleanup && sls dynamodb start & sleep 5 && mocha --require node_modules/ts-node/register/index.js test/*.spec.ts && npm run db-cleanup"
+"test": "npm run db-cleanup && sls dynamodb start & sleep 5 
+         && mocha --require node_modules/ts-node/register/index.js test/*.spec.ts 
+         && npm run db-cleanup"
 ```
-- the script db-cleanup deals with a shortcoming of dynamodb-local, namely that the DB-process does not terminate whith the plugin , and can also not be terminated programmatically
+- the script db-cleanup deals with a shortcoming of dynamodb-local, namely that the DB-process does not terminate whith the plugin , also it can not be terminated programmatically
 - an effective workaround ist presented in the script below, identifying the specific process by namespace and killing it individually
 ```
 "db-cleanup": "kill `ps -ax | grep Dynamo | grep -v grep | awk '{print $1}'` >/dev/null 2>&1 &"
@@ -131,7 +131,7 @@ https://github.com/BrianMacIntosh/alexa-skill-test-framework
 https://www.serverless.com/plugins/serverless-dynamodb-local
 ### Linting / Formatting:
 
-- linting ist done via eslint / typescript-eslint, extending on the reference configuration by air-bnb
+- linting ist done via eslint / typescript-eslint, extending on a reference configuration published by air-bnb
 - automatic code-formatting is enabled via the eslint integration of prettier
 
 ```
