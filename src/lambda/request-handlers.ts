@@ -1,18 +1,19 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/no-var-requires,max-len, @typescript-eslint/no-non-null-assertion */
 import * as Alexa from 'ask-sdk';
 import { RequestHandler, HandlerInput, ErrorHandler } from 'ask-sdk-core';
 import { Response } from 'ask-sdk-model';
 import logger from '../utils/logger';
 import responses from '../responses/responses-de-DE';
 
-const buildSSMLResponse = (emotion = '', intensity = '') =>
-  (phrase:string, audio = ''):string => {
-    const getReturnPhrase: string = emotion ? `<amazon:emotion name="${emotion}" intensity="${intensity}"> ${phrase} </amazon:emotion>`: phrase;
-    const returnAudio: string = audio ? `<audio src="${audio}"/>` : '';
-    return returnPhrase + returnAudio;
-    };
+const {
+  welcomePhraseOne, welcomePhraseTwo, farewellPhrase, helloWorldPhrase, errorPhrase, welcomeAudioOne, welcomeAudioTwo,
+} = responses;
 
+const getReturnPhrase = (emotion:string, intensity:string, phrase:string) => (emotion ? `<amazon:emotion name="${emotion}" intensity="${intensity}"> ${phrase} </amazon:emotion>` : phrase);
 
+const getReturnAudio = (audio:string) => (audio ? `<audio src="${audio}"/>` : '');
+
+const buildSSMLResponse = (emotion = '', intensity = '') => (phrase:string, audio = ''):string => getReturnPhrase(emotion, intensity, phrase) + getReturnAudio(audio);
 
 const LaunchRequestHandler: RequestHandler = {
   canHandle(handlerInput: HandlerInput): boolean {

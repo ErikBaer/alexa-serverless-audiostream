@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/no-var-requires, max-len */
 import * as Alexa from 'ask-sdk';
 import * as AWS from 'aws-sdk';
 import { DynamoDbPersistenceAdapter } from 'ask-sdk-dynamodb-persistence-adapter';

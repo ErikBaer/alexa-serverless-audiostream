@@ -52,7 +52,7 @@ describe("BaerData Skill", function () {
                             playsStream: {
                                             behavior: 'REPLACE_ALL',
                                             url,
-                                            token
+                                            name
                                          }
                         }
                     ]);

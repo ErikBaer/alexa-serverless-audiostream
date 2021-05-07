@@ -1,21 +1,22 @@
-// tslint:disable:no-console ter-max-len variable-name
+/* eslint-disable @typescript-eslint/no-var-requires, max-len */
 import * as Alexa from 'ask-sdk';
 import { HandlerInput, RequestInterceptor, ResponseInterceptor } from 'ask-sdk-core';
 import { Response } from 'ask-sdk-model';
+import logger from '../utils/logger';
 
-const PERSISTENT_ATTRIBUTES_NAMES = ['sessionCounter'];
+const PersistentAttributesNames = ['sessionCounter'];
 
 // This request interceptor will log all incoming requests to this lambda
 const LoggingRequestInterceptor: ResponseInterceptor = {
   process(handlerInput: HandlerInput): void {
-    console.log(`Incoming request: ${JSON.stringify(handlerInput.requestEnvelope)}`);
+    logger.info(`Incoming request: ${JSON.stringify(handlerInput.requestEnvelope)}`);
   },
 };
 
 // This response interceptor will log all outgoing responses of this lambda
 const LoggingResponseInterceptor: ResponseInterceptor = {
   process(_: HandlerInput, response: Response): void {
-    console.log(`Outgoing response: ${JSON.stringify(response)}`);
+    logger.info(`Outgoing response: ${JSON.stringify(response)}`);
   },
 };
 
@@ -23,13 +24,13 @@ const LoadAttributesRequestInterceptor: RequestInterceptor = {
   async process(handlerInput: HandlerInput): Promise<void> {
     const { attributesManager, requestEnvelope } = handlerInput;
     const sessionAttributes = attributesManager.getSessionAttributes();
-        // the "loaded" check is because the "new" session flag is lost if there's a one shot utterance that hits an intent with auto-delegate
-    if (Alexa.isNewSession(requestEnvelope) || !sessionAttributes['loaded']) { // is this a new session? not loaded from db?
+    // the "loaded" check is because the "new" session flag might get lost on rare occasions
+    if (Alexa.isNewSession(requestEnvelope) || !sessionAttributes.loaded) { // is this a new session? not loaded from db?
       const persistentAttributes = await attributesManager.getPersistentAttributes() || {};
-      console.log('Loading from persistent storage: ' + JSON.stringify(persistentAttributes));
-      persistentAttributes['loaded'] = true;
-            // copy persistent attribute to session attributes
-      attributesManager.setSessionAttributes(persistentAttributes); // ALL persistent attributtes are now session attributes
+      logger.info(`Loading from persistent storage: ${JSON.stringify(persistentAttributes)}`);
+      persistentAttributes.loaded = true;
+      // copy persistent attribute to session attributes
+      attributesManager.setSessionAttributes(persistentAttributes);
     }
   },
 };
@@ -40,16 +41,18 @@ const SaveAttributesResponseInterceptor: ResponseInterceptor = {
     const { attributesManager, requestEnvelope } = handlerInput;
     const sessionAttributes = attributesManager.getSessionAttributes();
     const shouldEndSession: boolean = (typeof response.shouldEndSession === 'undefined' ? true : response.shouldEndSession); // is this a session end?
-        // the "loaded" check is because the session "new" flag is lost if there's a one shot utterance that hits an intent with auto-delegate
-    const loadedThisSession: boolean = sessionAttributes['loaded'];
+    // the "loaded" check is because the session "new" flag is on rara occasions
+    const loadedThisSession: boolean = sessionAttributes.loaded;
     if ((shouldEndSession || Alexa.getRequestType(requestEnvelope) === 'SessionEndedRequest') && loadedThisSession) { // skill was stopped or timed out
-      sessionAttributes['sessionCounter'] = sessionAttributes['sessionCounter'] ? sessionAttributes['sessionCounter'] + 1 : 1;
-      for (const key in sessionAttributes) {
-        if (!PERSISTENT_ATTRIBUTES_NAMES.includes(key)) {
+      sessionAttributes.sessionCounter = sessionAttributes.sessionCounter ? sessionAttributes.sessionCounter + 1 : 1;
+
+      Object.entries(sessionAttributes).forEach(([key]) => {
+        if (!PersistentAttributesNames.includes(key)) {
           delete sessionAttributes[key];
         }
-      }
-      console.log('Saving to persistent storage:' + JSON.stringify(sessionAttributes));
+      });
+
+      logger.info(`Saving to persistent storage:${JSON.stringify(sessionAttributes)}`);
       attributesManager.setPersistentAttributes(sessionAttributes);
       await attributesManager.savePersistentAttributes();
     }
@@ -57,8 +60,8 @@ const SaveAttributesResponseInterceptor: ResponseInterceptor = {
 };
 
 export {
-    LoggingRequestInterceptor,
-    LoggingResponseInterceptor,
-    LoadAttributesRequestInterceptor,
-    SaveAttributesResponseInterceptor,
+  LoggingRequestInterceptor,
+  LoggingResponseInterceptor,
+  LoadAttributesRequestInterceptor,
+  SaveAttributesResponseInterceptor,
 };
