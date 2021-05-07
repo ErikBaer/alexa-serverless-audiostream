@@ -1,8 +1,6 @@
-/* eslint-disable @typescript-eslint/no-var-requires, max-len */
 import * as Alexa from 'ask-sdk';
-import * as AWS from 'aws-sdk';
-import { DynamoDbPersistenceAdapter } from 'ask-sdk-dynamodb-persistence-adapter';
-import { PersistenceAdapter } from 'ask-sdk-core';
+import { getDynamoDbPersistenceAdapter } from '../utils/db-adapter';
+
 import {
   LoggingRequestInterceptor,
   LoggingResponseInterceptor,
@@ -16,17 +14,6 @@ import {
   SessionEndedRequestHandler,
   RequestErrorHandler,
 } from './request-handlers';
-
-const tableName = 'usersTable';
-
-const getDBParams = () => (process.env.NODE_ENV === 'test'
-  ? { region: 'localhost', endpoint: 'http://localhost:8000' }
-  : {});
-
-const getDynamoDbPersistenceAdapter = (): PersistenceAdapter => new DynamoDbPersistenceAdapter({
-  tableName,
-  dynamoDBClient: new AWS.DynamoDB(getDBParams()),
-});
 
 exports.handler = Alexa.SkillBuilders.custom()
   .addRequestHandlers(

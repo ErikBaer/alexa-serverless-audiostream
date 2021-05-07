@@ -27,7 +27,7 @@ functions:
       - alexaSkill: ${file(config/default.json):setup.skillID}
     name: alexa-streaming-${self:provider.stage}
     environment:
-      streamUrl: ${file(config/default.js):stream.url}
+      streamUrl: ${file(config/default.json):stream.url}
       streamTitle: ${file(config/default.json):stream.title}
       streamSubTitle: ${file(config/default.json):stream.subtitle}
       streamName: ${file(config/default.json):stream.name}
