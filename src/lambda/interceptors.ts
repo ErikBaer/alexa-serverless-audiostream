@@ -23,7 +23,7 @@ const LoadAttributesRequestInterceptor: RequestInterceptor = {
   async process(handlerInput: HandlerInput): Promise<void> {
     const { attributesManager, requestEnvelope } = handlerInput;
     const sessionAttributes = attributesManager.getSessionAttributes();
-    // check for new session - the "loaded" check is because the "new" session flag might get lost on rare occasions
+    // double check for new session
     if (Alexa.isNewSession(requestEnvelope) || !sessionAttributes.loaded) {
       const persistentAttributes = (await attributesManager.getPersistentAttributes()) || {};
       logger.info(`Loading from persistent storage: ${JSON.stringify(persistentAttributes)}`);
