@@ -92,7 +92,7 @@ Execute the npm script "deploy":
 npm run deploy
 ```
 ```
-{"deploy": "sls deploy && sls alexa build && sls alexa update"}
+"deploy": " {npm run test && npm run lint && sls deploy && sls alexa build && sls alexa update"}
 ```
 ##### sls deploy
 - the lambda function containing all business logic is compiled, build and then deployed
@@ -117,9 +117,9 @@ npm run deploy
 
 https://github.com/pinojs/pino
 
-### Testing:
+### Testing / Linting:
 
-##### npm run test
+##### npm run test / npm run lint
 
 - testing is implemented via the frameworks mocha/chai as well as the alexa-skill-testing-framework
 - the plugin serverless-dynamodb-local ist used to enable testing of attribute persistence
@@ -129,13 +129,14 @@ https://github.com/BrianMacIntosh/alexa-skill-test-framework
 https://www.serverless.com/plugins/serverless-dynamodb-local
 
 - linting ist done via eslint-typescript, extending on the eslint.config from air-bnb
-- just run npm run test
 
 ```
+npm run lint
 npm run test
 ```
 ```
-"test": " npm run lint && npm run db-cleanup && sls dynamodb start & sleep 5 && mocha --require node_modules/ts-node/register/index.js test/*.spec.ts && npm run db-cleanup",
+"lint": "eslint -c .eslintrc.js 'src/**/*{.ts,.tsx}' "
+"test": "npm run db-cleanup && sls dynamodb start & sleep 5 && mocha --require node_modules/ts-node/register/index.js test/*.spec.ts && npm run db-cleanup",
 ```
 - the script db-cleanup deals with a shortcoming of dynamodb-local, namely that the DB-process does not terminate whith the plugin , and can also not be terminated programmatically
 - an effective workaround ist presented in the script below, identifying the specific process by namespace and killing it individually
