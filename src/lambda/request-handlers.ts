@@ -6,14 +6,22 @@ import logger from '../utils/logger';
 import responses from '../responses/responses-de-DE';
 
 const {
-  welcomePhraseOne, welcomePhraseTwo, farewellPhrase, helloWorldPhrase, errorPhrase, welcomeAudioOne, welcomeAudioTwo,
+  welcomePhraseOne,
+  welcomePhraseTwo,
+  farewellPhrase,
+  helloWorldPhrase,
+  errorPhrase,
+  welcomeAudioOne,
+  welcomeAudioTwo,
 } = responses;
 
-const getReturnPhrase = (emotion:string, intensity:string, phrase:string) => (emotion ? `<amazon:emotion name="${emotion}" intensity="${intensity}"> ${phrase} </amazon:emotion>` : phrase);
+const getReturnPhrase = (emotion: string, intensity: string, phrase: string) => (emotion
+  ? `<amazon:emotion name="${emotion}" intensity="${intensity}"> ${phrase} </amazon:emotion>`
+  : phrase);
 
-const getReturnAudio = (audio:string) => (audio ? `<audio src="${audio}"/>` : '');
+const getReturnAudio = (audio: string) => (audio ? `<audio src="${audio}"/>` : '');
 
-const buildSSMLResponse = (emotion = '', intensity = '') => (phrase:string, audio = ''):string => getReturnPhrase(emotion, intensity, phrase) + getReturnAudio(audio);
+const buildSSMLResponse = (emotion = '', intensity = '') => (phrase: string, audio = ''): string => getReturnPhrase(emotion, intensity, phrase) + getReturnAudio(audio);
 
 const LaunchRequestHandler: RequestHandler = {
   canHandle(handlerInput: HandlerInput): boolean {
@@ -22,28 +30,40 @@ const LaunchRequestHandler: RequestHandler = {
   handle(handlerInput: HandlerInput): Response {
     const sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
 
-    const speakOutput = () => (!sessionAttributes.sessionCounter
+    const pickSpeakOutput = () => (!sessionAttributes.sessionCounter
       ? buildSSMLResponse('excited', 'low')(welcomePhraseOne, welcomeAudioOne)
       : buildSSMLResponse('excited', 'low')(welcomePhraseTwo, welcomeAudioTwo));
 
     const streamUrl: string = process.env.streamUrl!;
     const streamName: string = process.env.streamName!;
 
-    const audioItemMetadata = { title: process.env.streamTitle, subtitle: process.env.streamSubTitle };
+    const audioItemMetadata = {
+      title   : process.env.streamTitle,
+      subtitle: process.env.streamSubTitle,
+    };
 
     return handlerInput.responseBuilder
-      .speak(speakOutput())
-      .addAudioPlayerPlayDirective('REPLACE_ALL', streamUrl, streamName, 0, undefined, audioItemMetadata)
+      .speak(pickSpeakOutput())
+      .addAudioPlayerPlayDirective(
+        'REPLACE_ALL',
+        streamUrl,
+        streamName,
+        0,
+        undefined,
+        audioItemMetadata,
+      )
       .getResponse();
   },
 };
 
 const CancelAndStopIntentHandler: RequestHandler = {
   canHandle(handlerInput: HandlerInput): boolean {
-    return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
+    return (
+      Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
             && (Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.PauseIntent'
                 || Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.CancelIntent'
-                || Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.StopIntent');
+                || Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.StopIntent')
+    );
   },
   handle(handlerInput: HandlerInput): Response {
     const speakOutput: string = buildSSMLResponse('excited', 'low')(farewellPhrase);
@@ -59,27 +79,23 @@ const RequestErrorHandler: ErrorHandler = {
     return true;
   },
   handle(handlerInput: HandlerInput, error: Error): Response {
-    // tslint:disable-next-line:no-console
     logger.info(`~~~~ Error handled: ${error.stack}`);
     const speakOutput: string = buildSSMLResponse()(errorPhrase);
 
-    return handlerInput.responseBuilder
-      .speak(speakOutput)
-      .reprompt(speakOutput)
-      .getResponse();
+    return handlerInput.responseBuilder.speak(speakOutput).reprompt(speakOutput).getResponse();
   },
 };
 
 const HelloWorldIntentHandler: RequestHandler = {
   canHandle(handlerInput: HandlerInput): boolean {
-    return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
-            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'HelloWorldIntent';
+    return (
+      Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
+            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'HelloWorldIntent'
+    );
   },
   handle(handlerInput: HandlerInput): Response {
     const speakOutput: string = buildSSMLResponse('excited', 'low')(helloWorldPhrase);
-    return handlerInput.responseBuilder
-      .speak(speakOutput)
-      .getResponse();
+    return handlerInput.responseBuilder.speak(speakOutput).getResponse();
   },
 };
 
@@ -93,5 +109,10 @@ const SessionEndedRequestHandler: RequestHandler = {
 };
 
 export {
-  LaunchRequestHandler, HelloWorldIntentHandler, CancelAndStopIntentHandler, SessionEndedRequestHandler, RequestErrorHandler, buildSSMLResponse,
+  LaunchRequestHandler,
+  HelloWorldIntentHandler,
+  CancelAndStopIntentHandler,
+  SessionEndedRequestHandler,
+  RequestErrorHandler,
+  buildSSMLResponse,
 };

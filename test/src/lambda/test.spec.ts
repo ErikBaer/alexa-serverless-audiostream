@@ -8,7 +8,6 @@ const url = "https://wdr-wdr2-rheinland.icecastssl.wdr.de/wdr/wdr2/rheinland/mp3
 const name = "WRD2 - Baer Data"
 
 process.env.NODE_ENV = 'test'
-process.env.AWS_REGION = 'eu-central-1'
 process.env.streamUrl = url
 process.env.streamName =  name
 

@@ -24,12 +24,11 @@ const LoadAttributesRequestInterceptor: RequestInterceptor = {
   async process(handlerInput: HandlerInput): Promise<void> {
     const { attributesManager, requestEnvelope } = handlerInput;
     const sessionAttributes = attributesManager.getSessionAttributes();
-    // the "loaded" check is because the "new" session flag might get lost on rare occasions
-    if (Alexa.isNewSession(requestEnvelope) || !sessionAttributes.loaded) { // is this a new session? not loaded from db?
-      const persistentAttributes = await attributesManager.getPersistentAttributes() || {};
+    // check for new session - the "loaded" check is because the "new" session flag might get lost on rare occasions
+    if (Alexa.isNewSession(requestEnvelope) || !sessionAttributes.loaded) {
+      const persistentAttributes = (await attributesManager.getPersistentAttributes()) || {};
       logger.info(`Loading from persistent storage: ${JSON.stringify(persistentAttributes)}`);
       persistentAttributes.loaded = true;
-      // copy persistent attribute to session attributes
       attributesManager.setSessionAttributes(persistentAttributes);
     }
   },
@@ -37,14 +36,22 @@ const LoadAttributesRequestInterceptor: RequestInterceptor = {
 
 const SaveAttributesResponseInterceptor: ResponseInterceptor = {
   async process(handlerInput: HandlerInput, response: Response): Promise<void> {
-    if (!response) { return; } // avoid intercepting calls that have no outgoing response due to errors
+    if (!response) {
+      return;
+    } // avoid intercepting calls that have no outgoing response due to errors
     const { attributesManager, requestEnvelope } = handlerInput;
     const sessionAttributes = attributesManager.getSessionAttributes();
-    const shouldEndSession: boolean = (typeof response.shouldEndSession === 'undefined' ? true : response.shouldEndSession); // is this a session end?
+    const shouldEndSession: boolean = typeof response.shouldEndSession === 'undefined' ? true : response.shouldEndSession; // is this a session end?
     // the "loaded" check is because the session "new" flag is on rara occasions
     const loadedThisSession: boolean = sessionAttributes.loaded;
-    if ((shouldEndSession || Alexa.getRequestType(requestEnvelope) === 'SessionEndedRequest') && loadedThisSession) { // skill was stopped or timed out
-      sessionAttributes.sessionCounter = sessionAttributes.sessionCounter ? sessionAttributes.sessionCounter + 1 : 1;
+    if (
+      (shouldEndSession || Alexa.getRequestType(requestEnvelope) === 'SessionEndedRequest')
+            && loadedThisSession
+    ) {
+      // skill was stopped or timed out
+      sessionAttributes.sessionCounter = sessionAttributes.sessionCounter
+        ? sessionAttributes.sessionCounter + 1
+        : 1;
 
       Object.entries(sessionAttributes).forEach(([key]) => {
         if (!PersistentAttributesNames.includes(key)) {
