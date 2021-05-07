@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires,max-len, @typescript-eslint/no-non-null-assertion */
 import * as Alexa from 'ask-sdk';
 import { RequestHandler, HandlerInput, ErrorHandler } from 'ask-sdk-core';
 import { Response } from 'ask-sdk-model';

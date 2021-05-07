@@ -31,6 +31,7 @@ alexaTest.setLocale('de-DE');
 // **Baer Data Streaming Skill Tests**
 
 describe('BaerData Skill', () => {
+
   //* *LaunchRequest**
 
   describe('LaunchRequest', () => {
