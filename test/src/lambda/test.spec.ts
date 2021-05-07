@@ -1,15 +1,16 @@
 const alexaTest = require('alexa-skill-test-framework');
-
 const {buildSSMLResponse} = require ('../../../src/lambda/request-handlers')
 import responses from '../../../src/responses/responses-de-DE'
 
-const url= 'https://wdr-wdr2-rheinland.icecastssl.wdr.de/wdr/wdr2/rheinland/mp3/128/stream.mp3'
-const token = 'WRD2 - Baer Data'
+const {welcomePhraseOne, welcomePhraseTwo, welcomeAudioOne, welcomeAudioTwo, farewellPhrase, helloWorldPhrase} = responses
+
+const url = "https://wdr-wdr2-rheinland.icecastssl.wdr.de/wdr/wdr2/rheinland/mp3/128/stream.mp3"
+const name = "WRD2 - Baer Data"
 
 process.env.NODE_ENV = 'test'
 process.env.AWS_REGION = 'eu-central-1'
 process.env.streamUrl = url
-process.env.streamName = token
+process.env.streamName =  name
 
 // initialize the testing framework
 alexaTest.initialize(
@@ -30,7 +31,7 @@ describe("BaerData Skill", function () {
                     alexaTest.test([
                         {
                             request: alexaTest.getLaunchRequest(),
-                            says: buildSSMLResponse("excited", "low")(responses.welcomePhraseOne, responses.welcomeAudioOne)
+                            says: buildSSMLResponse("excited", "low")(welcomePhraseOne, welcomeAudioOne)
                         }
                 ]);
             })
@@ -75,7 +76,7 @@ describe("BaerData Skill", function () {
                     alexaTest.test([
                         {
                             request: alexaTest.getIntentRequest("AMAZON.StopIntent"),
-                            says: buildSSMLResponse("excited", "low")(responses.farewellPhrase)
+                            says: buildSSMLResponse("excited", "low")(farewellPhrase)
                         }
                 ]);
             })
@@ -106,7 +107,7 @@ describe("BaerData Skill", function () {
                         alexaTest.test([
                             {
                                 request: alexaTest.getIntentRequest("AMAZON.PauseIntent"),
-                                says: buildSSMLResponse("excited", "low")(responses.farewellPhrase)
+                                says: buildSSMLResponse("excited", "low")(farewellPhrase)
                             }
                     ]);
                 })
@@ -137,7 +138,7 @@ describe("BaerData Skill", function () {
                         alexaTest.test([
                             {
                                 request: alexaTest.getIntentRequest("AMAZON.CancelIntent"),
-                                says: buildSSMLResponse("excited", "low")(responses.farewellPhrase)
+                                says: buildSSMLResponse("excited", "low")(farewellPhrase)
                             }
                     ]);
                 })
@@ -169,7 +170,7 @@ describe("BaerData Skill", function () {
                     alexaTest.test([
                         {
                             request: alexaTest.getIntentRequest("HelloWorldIntent"),
-                            says: buildSSMLResponse("excited", "low")(responses.helloWorldPhrase)
+                            says: buildSSMLResponse("excited", "low")(helloWorldPhrase)
                         }
                     ]);
             })
@@ -183,10 +184,7 @@ describe("BaerData Skill", function () {
             })
         });
 
+
     });
 
-
-//TODO: deploy, test functionality and push
-
-//TODO: communicate finalized result *here*!
 

@@ -2,8 +2,7 @@
 import * as Alexa from 'ask-sdk';
 import { RequestHandler, HandlerInput, ErrorHandler } from 'ask-sdk-core';
 import { Response } from 'ask-sdk-model';
-const config = require('config');
-
+import logger from '../utils/logger';
 import responses from '../responses/responses-de-DE';
 
 const buildSSMLResponse = (emotion = '', intensity = '') =>
@@ -21,35 +20,36 @@ const LaunchRequestHandler: RequestHandler = {
   },
   handle(handlerInput: HandlerInput): Response {
     const sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
-    const sessionCounter: number = sessionAttributes['sessionCounter'];
 
-    const speakOutputFirst: string = buildSSMLResponse('excited', 'low')(responses.welcomePhraseOne, responses.welcomeAudioOne);
-    const speakOutputLater: string = buildSSMLResponse('excited', 'low')(responses.welcomePhraseTwo, responses.welcomeAudioTwo);
-    const pickWelcomeOutput: ()=> string = () => !sessionCounter ? speakOutputFirst : speakOutputLater;
+    const speakOutput = () => (!sessionAttributes.sessionCounter
+      ? buildSSMLResponse('excited', 'low')(welcomePhraseOne, welcomeAudioOne)
+      : buildSSMLResponse('excited', 'low')(welcomePhraseTwo, welcomeAudioTwo));
 
-    const {url, name, title, subtitle} = config.get('stream')
-    const audioItemMetadata: {title: string, subtitle: string} = { title, subtitle };
+    const streamUrl: string = process.env.streamUrl!;
+    const streamName: string = process.env.streamName!;
+
+    const audioItemMetadata = { title: process.env.streamTitle, subtitle: process.env.streamSubTitle };
 
     return handlerInput.responseBuilder
-            .speak(pickWelcomeOutput())
-            .addAudioPlayerPlayDirective('REPLACE_ALL', url, name, 0, undefined, audioItemMetadata)
-            .getResponse();
+      .speak(speakOutput())
+      .addAudioPlayerPlayDirective('REPLACE_ALL', streamUrl, streamName, 0, undefined, audioItemMetadata)
+      .getResponse();
   },
 };
 
 const CancelAndStopIntentHandler: RequestHandler = {
   canHandle(handlerInput: HandlerInput): boolean {
     return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
-            && (Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.PauseIntent' ||
-                Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.CancelIntent' ||
-                Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.StopIntent');
+            && (Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.PauseIntent'
+                || Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.CancelIntent'
+                || Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.StopIntent');
   },
   handle(handlerInput: HandlerInput): Response {
-    const speakOutput: string = buildSSMLResponse('excited', 'low')(responses.farewellPhrase);
+    const speakOutput: string = buildSSMLResponse('excited', 'low')(farewellPhrase);
     return handlerInput.responseBuilder
-            .speak(speakOutput)
-            .addAudioPlayerStopDirective()
-            .getResponse();
+      .speak(speakOutput)
+      .addAudioPlayerStopDirective()
+      .getResponse();
   },
 };
 
@@ -58,14 +58,14 @@ const RequestErrorHandler: ErrorHandler = {
     return true;
   },
   handle(handlerInput: HandlerInput, error: Error): Response {
-        // tslint:disable-next-line:no-console
-    console.log(`~~~~ Error handled: ${error.stack}`);
-    const speakOutput: string = buildSSMLResponse()(responses.errorPhrase);
+    // tslint:disable-next-line:no-console
+    logger.info(`~~~~ Error handled: ${error.stack}`);
+    const speakOutput: string = buildSSMLResponse()(errorPhrase);
 
     return handlerInput.responseBuilder
-            .speak(speakOutput)
-            .reprompt(speakOutput)
-            .getResponse();
+      .speak(speakOutput)
+      .reprompt(speakOutput)
+      .getResponse();
   },
 };
 
@@ -75,10 +75,10 @@ const HelloWorldIntentHandler: RequestHandler = {
             && Alexa.getIntentName(handlerInput.requestEnvelope) === 'HelloWorldIntent';
   },
   handle(handlerInput: HandlerInput): Response {
-    const speakOutput: string = buildSSMLResponse('excited', 'low')(responses.helloWorldPhrase);
+    const speakOutput: string = buildSSMLResponse('excited', 'low')(helloWorldPhrase);
     return handlerInput.responseBuilder
-            .speak(speakOutput)
-            .getResponse();
+      .speak(speakOutput)
+      .getResponse();
   },
 };
 
@@ -91,4 +91,6 @@ const SessionEndedRequestHandler: RequestHandler = {
   },
 };
 
-export { LaunchRequestHandler, HelloWorldIntentHandler, CancelAndStopIntentHandler, SessionEndedRequestHandler, RequestErrorHandler, buildSSMLResponse };
+export {
+  LaunchRequestHandler, HelloWorldIntentHandler, CancelAndStopIntentHandler, SessionEndedRequestHandler, RequestErrorHandler, buildSSMLResponse,
+};
