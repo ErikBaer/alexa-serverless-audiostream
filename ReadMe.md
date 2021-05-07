@@ -109,42 +109,52 @@ npm run deploy
 - then for this demonstration, open up Alexa and tell her to just "start baer data" and ...
 ##### ... have fun with your favourite radio-stream!
 
-### Logging:
+### Testing:
 
-- each incoming and outgoing interaction is logged (including "RequestErrors")
-- the related state-model of the specific session is also logged on each Interaction (with correlating ID)
-- the logger of choice: pino with pino-pretty for local development
-
-https://github.com/pinojs/pino
-
-### Testing / Linting:
-
-##### npm run test / npm run lint
+##### npm run test
 
 - testing is implemented via the frameworks mocha/chai as well as the alexa-skill-testing-framework
 - the plugin serverless-dynamodb-local ist used to enable testing of attribute persistence
 
-https://github.com/BrianMacIntosh/alexa-skill-test-framework
 
-https://www.serverless.com/plugins/serverless-dynamodb-local
-
-- linting ist done via eslint-typescript, extending on the eslint.config from air-bnb
-
-```
-npm run lint
-npm run test
-```
 ```
 "lint": "eslint -c .eslintrc.js 'src/**/*{.ts,.tsx}' "
-"test": "npm run db-cleanup && sls dynamodb start & sleep 5 && mocha --require node_modules/ts-node/register/index.js test/*.spec.ts && npm run db-cleanup",
+"test": "npm run db-cleanup && sls dynamodb start & sleep 5 && mocha --require node_modules/ts-node/register/index.js test/*.spec.ts && npm run db-cleanup"
 ```
 - the script db-cleanup deals with a shortcoming of dynamodb-local, namely that the DB-process does not terminate whith the plugin , and can also not be terminated programmatically
 - an effective workaround ist presented in the script below, identifying the specific process by namespace and killing it individually
 ```
 "db-cleanup": "kill `ps -ax | grep Dynamo | grep -v grep | awk '{print $1}'` >/dev/null 2>&1 &"
 ```
+https://github.com/BrianMacIntosh/alexa-skill-test-framework
 
+https://www.serverless.com/plugins/serverless-dynamodb-local
+### Linting / Formatting:
+
+- linting ist done via eslint / typescript-eslint, extending on the reference configuration by air-bnb
+- automatic code-formatting is enabled via the eslint integration of prettier
+
+```
+npm run lint
+npm run format
+```
+```
+"lint": "eslint -c .eslintrc.js 'src/**/*{.ts,.tsx}' "
+"format": "prettier-eslint --eslint-config-path ./.eslintrc.js --write 'src/**/*{.ts,.tsx}'"
+```
  
-
-
-Please feel free to contact me with questions, suggestions and anything else remotely helpful or interesting :)
+ https://eslint.org/
+ 
+ https://prettier.io/
+ 
+ https://github.com/typescript-eslint/typescript-eslint
+ 
+ 
+ ### Logging:
+ 
+ - each incoming and outgoing interaction with the skill is fully logged (including "RequestErrors")
+ - the related state-model of the specific session is also logged on each interaction (with correlating ID)
+ - the logger of choice: pino with pino-pretty for local development
+ 
+ https://github.com/pinojs/pino
+ 

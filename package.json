@@ -5,7 +5,7 @@
   "main": "src/lambda/index.ts",
   "scripts": {
     "lint": "eslint -c .eslintrc.js 'src/**/*{.ts,.tsx}' ",
-    "format": "prettier-eslint --eslint-config-path ./../alexa-serverless-audiostream/.eslintrc.js --write 'src/**/*{.ts,.tsx}'",
+    "format": "prettier-eslint --eslint-config-path ./.eslintrc.js --write 'src/**/*{.ts,.tsx}'",
     "test": "npm run db-cleanup && sls dynamodb start & sleep 5 && mocha --require node_modules/ts-node/register/index.js test/**/*.spec.ts && npm run db-cleanup",
     "db-cleanup": "kill `ps -ax | grep Dynamo | grep -v grep | awk '{print $1}'` >/dev/null 2>&1 &",
     "create": "sls alexa auth && sls alexa create --name BaerData --locale de-DE --type custom",
