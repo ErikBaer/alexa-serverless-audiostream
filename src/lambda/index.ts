@@ -1,5 +1,5 @@
 import * as Alexa from 'ask-sdk';
-import { getDynamoDbPersistenceAdapter } from '../utils/db-adapter';
+import getDynamoDbPersistenceAdapter from '../utils/db-adapter';
 
 import {
   LoggingRequestInterceptor,

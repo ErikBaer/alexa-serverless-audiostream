@@ -6,7 +6,7 @@ const pickDBParams = () => (process.env.NODE_ENV === 'test'
   ? { region: 'localhost', endpoint: 'http://localhost:8000' }
   : {});
 
-export const getDynamoDbPersistenceAdapter = (): PersistenceAdapter => new DynamoDbPersistenceAdapter({
-  tableName: 'usersTable',
+export default (): PersistenceAdapter => new DynamoDbPersistenceAdapter({
+  tableName     : 'usersTable',
   dynamoDBClient: new AWS.DynamoDB(pickDBParams()),
 });
