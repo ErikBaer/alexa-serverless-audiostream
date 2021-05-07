@@ -2,11 +2,19 @@
   "intents": [
     {
       "name": "AMAZON.CancelIntent",
-      "samples": []
+      "samples": [
+        "brich ab",
+        "mach das nicht",
+        "lass das"
+      ]
     },
     {
       "name": "AMAZON.StopIntent",
-      "samples": []
+      "samples": [
+        "stoppe",
+        "beende",
+        "schliesse"
+      ]
     },
     {
       "name": "HelloWorldIntent",
@@ -19,7 +27,11 @@
     },
     {
       "name": "AMAZON.NavigateHomeIntent",
-      "samples": []
+      "samples": [
+        "gehe zurück",
+        "wechsle zum Anfang",
+        "zurück zum Anfang"
+      ]
     },
     {
       "name": "AMAZON.PauseIntent",
