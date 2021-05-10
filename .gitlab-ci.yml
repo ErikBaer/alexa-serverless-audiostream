@@ -1,0 +1,66 @@
+image: docker:latest
+
+cache:
+  paths:
+    - node_modules/
+
+stages:
+  - build
+  - precheck
+  - test
+  - deploy
+
+build-docker-image:
+  stage: build
+  image: docker:latest
+  services:
+    - docker:dind
+  script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - docker build --pull -t "$CI_REGISTRY_IMAGE" -f Dockerfile.pipeline .
+    - docker push "$CI_REGISTRY_IMAGE"
+  only:
+    changes:
+      - Dockerfile.pipeline
+
+has_lock_files:
+  stage: precheck
+  script:
+    - "if [[ -e 'package.json' &&  ! -e 'package-lock.json' ]]; then echo 'No lock file found. Please add a package-lock.json'; false; fi"
+  only:
+    - master
+
+security_checker:
+  stage: precheck
+  image: $CI_REGISTRY_IMAGE:latest
+  script:
+    - npm audit --audit-level=moderate
+  only:
+    - master
+
+eslint:
+  stage: precheck
+  image: $CI_REGISTRY_IMAGE:latest
+  script:
+    - npm i -D
+    - npm run lint
+  only:
+    - master
+
+tests:
+  stage: test
+  image: $CI_REGISTRY_IMAGE:latest
+  script:
+    - npm i -D
+    - sls dynamodb install
+    - npm run test
+
+production_deploy:
+  stage: deploy
+  image: $CI_REGISTRY_IMAGE:latest
+  only:
+    - master
+  script:
+    - npm i
+    - cd / && serverless config credentials --provider aws --key $AWS_ACCESS_KEY_ID --secret $AWS_SECRET_ACCESS_KEY && cd -
+    - SLS_DEBUG=* serverless deploy --verbose --force --stage production
