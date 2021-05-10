@@ -27,6 +27,3 @@ exports.handler = Alexa.SkillBuilders.custom()
   .addResponseInterceptors(LoggingResponseInterceptor, SaveAttributesResponseInterceptor)
   .withPersistenceAdapter(getDynamoDbPersistenceAdapter())
   .lambda();
-
-//TODO: Readme: add AWS_Creds to pipeline vars
-//TODO: adjust test-messages to be more descriptive
