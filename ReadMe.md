@@ -43,10 +43,6 @@ npm install
 ``` 
 - an example configuration can be found at:
  ```
-config/default.example.json
-```
-- after revising and / or customizing specific values, please rename the file to: 
- ```
 config/default.json
  ```
 #### Configure credentials
@@ -60,10 +56,6 @@ config/default.json
 https://www.serverless.com/framework/docs/providers/aws/guide/credentials/
 
 https://www.serverless.com/blog/how-to-manage-your-alexa-skills-with-serverless
-
-   
-
-
 
 ## Skill creation:
 Execute the npm script "create":
@@ -85,7 +77,7 @@ npm run create --name **YourSkill** --locale **xx-XX** --type custom
 ```
    
 - after the skill is successfully created, the corresponding Amazon-SKILL-ID is return to the console
-- ##### please copy that Skill-ID and insert it into the config-file (default.json) at the appropriate position 
+- ##### please copy that Skill-ID and insert it into the .env file at the appropriate position 
 
 ## Deployment:
 Execute the npm script "deploy":
