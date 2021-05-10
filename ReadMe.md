@@ -53,7 +53,8 @@ config/default.json
 
 - configure the serverless framework for the provider AWS
 - retrieve the credentials for api access to your Amazon-Developer account
-- for the purpose of this example please add those credentials to the file config/default.json (- ignored by git)
+- please enter those credentials into the file .env.example and rename it to .env
+- the variables will be injected into the process at runtime and are not subject to any version control (.gitignore)
  
 ###### For detailed information on how to retrieve and configure the credentials, please kindly refer to these sources below: 
 https://www.serverless.com/framework/docs/providers/aws/guide/credentials/
@@ -157,4 +158,17 @@ npm run format
  - the logger of choice: pino with pino-pretty for local development
  
  https://github.com/pinojs/pino
+ 
+ ###Continuous deployment
+ 
+ - A CI/CD pipeline is implemented using the devops features of Gitlab
+ - first a docker base-image is generated containing underlying dependencies
+ - then a couple of pre-check routines are followed, including running npm lint
+ - after that the test suite runs against a mock-database
+ - at last the command sls deploy is executed and the code is automatically deployed to production
+ 
+ For your own implementation, please enter the variables from your local .env file into the gitlab environment!
+ 
+https://docs.gitlab.com/ee/ci/variables/
+ 
  
