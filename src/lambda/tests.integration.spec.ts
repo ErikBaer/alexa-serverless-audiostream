@@ -43,7 +43,7 @@ describe('BaerData Skill', () => {
       ]);
     });
 
-    describe('should add the correct recurring welcome response', () => {
+    describe('should return the correct recurring welcome response', () => {
       alexaTest.test([
         {
           request: alexaTest.getLaunchRequest(),
@@ -78,7 +78,7 @@ describe('BaerData Skill', () => {
   //* *StopIntent**
 
   describe('StopIntent', () => {
-    describe('should return the correct response', () => {
+    describe('should return the correct  farewell response', () => {
       alexaTest.test([
         {
           request: alexaTest.getIntentRequest('AMAZON.StopIntent'),
@@ -109,7 +109,7 @@ describe('BaerData Skill', () => {
   //* *PauseIntent**
 
   describe('PauseIntent', () => {
-    describe('should return the correct response', () => {
+    describe('should return the correct farewell response', () => {
       alexaTest.test([
         {
           request: alexaTest.getIntentRequest('AMAZON.PauseIntent'),
@@ -140,7 +140,7 @@ describe('BaerData Skill', () => {
   //* *CancelIntent**
 
   describe('CancelIntent', () => {
-    describe('should return the farewell response', () => {
+    describe('should return the correct farewell response', () => {
       alexaTest.test([
         {
           request: alexaTest.getIntentRequest('AMAZON.CancelIntent'),
@@ -171,7 +171,7 @@ describe('BaerData Skill', () => {
   //* *HelloWorldIntent**
 
   describe('HelloWorldIntent', () => {
-    describe('should return the correct response', () => {
+    describe('should return the correct helloWorld response', () => {
       alexaTest.test([
         {
           request: alexaTest.getIntentRequest('HelloWorldIntent'),

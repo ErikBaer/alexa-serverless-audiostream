@@ -1,6 +1,6 @@
 {
   "name": "alexa-serverless",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "",
   "main": "src/lambda/index.ts",
   "scripts": {

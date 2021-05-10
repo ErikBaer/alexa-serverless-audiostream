@@ -169,7 +169,7 @@ npm run format
  
   ![gitlab-pipeline](assets/pipeline.png)
  
- For your own implementation, please enter the variables from your local .env file into the related gitlab environment!
+ For your own implementation, please enter the variables from your local .env file into the related gitlab environment, alongside your dedicated AWS-credentials!
  
 https://docs.gitlab.com/ee/ci/variables/
  
