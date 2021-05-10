@@ -1,13 +1,6 @@
 {
-  "credentials": {
-    "awsAccountId": "**YOUR_AWS_ACCOUNT_ID**",
-    "awsRegion": "**YOUR_AWS_REGION**",
-    "vendorId": "**YOUR_VENDOR_ID**",
-    "clientId": "**YOUR_CLIENT_ID**",
-    "clientSecret": "**YOUR_CLIENT_SECRET**"
-    },
+
   "setup": {
-    "skillID": "**YOUR_SKILL_ID**",
     "serviceName": "BaerData",
     "invocationName": "baer data"
     },

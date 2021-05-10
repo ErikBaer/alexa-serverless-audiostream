@@ -1,7 +1,8 @@
 service: ${file(config/default.json):setup.serviceName}
+useDotenv: true
 provider:
   name: aws
-  region: ${file(config/default.json):credentials.awsRegion}
+  region: 'eu-central-1'
   runtime: nodejs14.x
   lambdaHashingVersion: 20201221
   stage: dev
@@ -13,7 +14,7 @@ provider:
             - dynamoDB:CreateTable
             - dynamoDB:GetItem
             - dynamoDB:PutItem
-          Resource: "arn:aws:dynamodb:${self:provider.region}:${file(config/default.json):credentials.awsAccountId}:table/${self:resources.Resources.usersTable.Properties.TableName}"
+          Resource: "arn:aws:dynamodb:${self:provider.region}:${env:AWS_ACCOUNT_ID}:credentials.awsAccountId}:table/${self:resources.Resources.usersTable.Properties.TableName}"
 
 plugins:
   - serverless-plugin-typescript
@@ -24,7 +25,7 @@ functions:
   alexa:
     handler: src/lambda/index.handler
     events:
-      - alexaSkill: ${file(config/default.json):setup.skillID}
+      - alexaSkill: ${env:ALEXA_SKILL_ID}
     name: alexa-streaming-${self:provider.stage}
     environment:
       streamUrl: ${file(config/default.json):stream.url}
@@ -51,16 +52,16 @@ resources:
 
 custom:
   alexa:
-    vendorId: ${file(config/default.json):credentials.vendorId}
-    clientId: ${file(config/default.json):credentials.clientId}
-    clientSecret: ${file(config/default.json):credentials.clientSecret}
+    vendorId: ${env:ALEXA_VENDOR_ID}
+    clientId: ${env:ALEXA_CLIENT_ID}
+    clientSecret: ${env:ALEXA_CLIENT_SECRET}
     skills:
-      - id: ${file(config/default.json):setup.skillID}
+      - id: ${env:ALEXA_SKILL_ID}
         manifest:
           apis:
             custom:
               endpoint:
-                uri: arn:aws:lambda:${self:provider.region}:${file(config/default.json):credentials.awsAccountId}:function:alexa-streaming-${self:provider.stage}
+                uri: arn:aws:lambda:${self:provider.region}:${env:AWS_ACCOUNT_ID}:function:alexa-streaming-${self:provider.stage}
               interfaces:
                 - type: AUDIO_PLAYER
           manifestVersion: '1.0'
