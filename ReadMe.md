@@ -167,7 +167,9 @@ npm run format
  - after that the test suite runs against a mock-database
  - at last the command sls deploy is executed and the code is automatically deployed to production
  
- For your own implementation, please enter the variables from your local .env file into the gitlab environment!
+  ![gitlab-pipeline](assets/pipeline.png)
+ 
+ For your own implementation, please enter the variables from your local .env file into the related gitlab environment!
  
 https://docs.gitlab.com/ee/ci/variables/
  

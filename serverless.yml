@@ -14,7 +14,7 @@ provider:
             - dynamoDB:CreateTable
             - dynamoDB:GetItem
             - dynamoDB:PutItem
-          Resource: "arn:aws:dynamodb:${self:provider.region}:${env:AWS_ACCOUNT_ID}}:table/${self:resources.Resources.usersTable.Properties.TableName}"
+          Resource: "arn:aws:dynamodb:${self:provider.region}:${env:AWS_ACCOUNT_ID}:table/${self:resources.Resources.usersTable.Properties.TableName}"
 
 plugins:
   - serverless-plugin-typescript
