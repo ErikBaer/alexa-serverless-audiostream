@@ -151,7 +151,7 @@ npm run format
  
  https://github.com/pinojs/pino
  
- ###Continuous deployment
+ ### Continuous deployment
  
  - A CI/CD pipeline is implemented using the devops features of Gitlab
  - first a docker base-image is generated containing underlying dependencies
