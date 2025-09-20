@@ -1,0 +1,17 @@
+[user]
+	name = Erik Baer
+	email = erik.baer@thoughtworks.com
+[init]
+	defaultBranch = main
+[pull]
+	rebase = false
+[core]
+	autocrlf = input
+[github]
+	user = erik-baer-tw
+[log]
+  	showSignature = true
+[branch]
+  	sort = committerdate
+[includeIf "gitdir:~/Development/mine/**"]
+  	path = ~/Development/mine/.gitconfig
